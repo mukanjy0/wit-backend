@@ -1,0 +1,30 @@
+package com.example.wit.challenge.domain.bet;
+
+import com.example.wit.player.domain.Player;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.io.Serializable;
+
+@Entity
+@Table
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+public class BetPlayer {
+    @EmbeddedId
+    BetPlayerId id;
+    private Integer amount;
+    @ManyToOne
+    @MapsId("betId")
+    @JoinColumn(name = "bet_id", referencedColumnName = "id")
+    Bet bet;
+    @ManyToOne
+    @MapsId("playerId")
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    Player player;
+    @Embeddable
+    @Getter @Setter @EqualsAndHashCode @NoArgsConstructor @AllArgsConstructor
+    public class BetPlayerId implements Serializable {
+        private Long betId;
+        private Long playerId;
+    }
+}

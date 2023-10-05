@@ -42,9 +42,11 @@ public class Player {
     University university;
     @ManyToOne
     Team team;
-    @Column(length = 24)
+    @Column(length = 24, nullable = false)
     private String username;
+    @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer points;
+    @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer rating;
     private LocalDate registrationDate;
     @OneToMany(mappedBy = "player")

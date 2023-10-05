@@ -16,6 +16,7 @@ import java.util.Set;
 public class Bet {
     @Id
     private Long id;
+    @Column(nullable = false)
     private Integer pool;
     @OneToOne
     @MapsId

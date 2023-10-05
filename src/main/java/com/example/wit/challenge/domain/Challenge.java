@@ -22,11 +22,13 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer lowerBound;
+    @Column(nullable = false)
     private Integer upperBound;
     @ManyToMany
     Set<Reward> rewards;

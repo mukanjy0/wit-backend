@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -28,9 +29,10 @@ public class Contest {
     private Long id;
     @ManyToOne(optional = false)
     Division division;
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    @Column(nullable = false)
+    private LocalDateTime start;
+    @Column(nullable = false)
+    private LocalDateTime end;
     private LocalTime duration;
     private String editorialUrl;
     @ManyToMany

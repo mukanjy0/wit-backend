@@ -25,6 +25,7 @@ public class RewardCardType {
         @JoinColumn(name = "card_type_suit", referencedColumnName = "suit", insertable = false, updatable = false)
     })
     CardType cardType;
+    @Column(nullable = false)
     private Short quantity;
 
     @Embeddable

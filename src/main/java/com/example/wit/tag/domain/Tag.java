@@ -16,7 +16,7 @@ public class Tag {
     @Id
     @Column(length = 10)
     private String acronym;
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String name;
     @ManyToMany(mappedBy = "tags")
     Set<Problem> problems;

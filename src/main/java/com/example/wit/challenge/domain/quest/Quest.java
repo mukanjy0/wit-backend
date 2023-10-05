@@ -18,7 +18,7 @@ public class Quest {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String details;
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String difficulty;
     @OneToOne
     @MapsId

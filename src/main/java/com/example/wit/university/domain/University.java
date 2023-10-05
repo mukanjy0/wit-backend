@@ -19,7 +19,7 @@ public class University {
     @Id
     @Column(length = 10)
     private String acronym;
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String fullName;
     @ManyToMany
     Set<Career> careers;

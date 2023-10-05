@@ -16,7 +16,9 @@ import java.util.Set;
 public class Division {
     @Id
     private Short id;
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer lowerBound;
+    @Column(nullable = false)
     private Integer upperBound;
     @OneToMany(mappedBy = "division")
     Set<Category> category;

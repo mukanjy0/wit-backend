@@ -26,6 +26,6 @@ public class Submission {
     private LocalDateTime dateTime;
     private String result;
     private Boolean inPractice;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String code;
 }

@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class BetPlayer {
     @EmbeddedId
     BetPlayerId id;
+    @Column(nullable = false)
     private Integer amount;
     @ManyToOne
     @MapsId("betId")
@@ -23,7 +24,7 @@ public class BetPlayer {
     Player player;
     @Embeddable
     @Getter @Setter @EqualsAndHashCode @NoArgsConstructor @AllArgsConstructor
-    public class BetPlayerId implements Serializable {
+    static public class BetPlayerId implements Serializable {
         private Long betId;
         private Long playerId;
     }

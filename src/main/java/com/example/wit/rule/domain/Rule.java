@@ -16,7 +16,7 @@ public class Rule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String title;
     @Column(columnDefinition = "TEXT")
     private String details;

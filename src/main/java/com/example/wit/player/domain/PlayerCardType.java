@@ -22,11 +22,12 @@ public class PlayerCardType {
         @JoinColumn(name = "card_type_suit", referencedColumnName = "suit")
     })
     CardType cardType;
+    @Column(columnDefinition = "SMALLINT DEFAULT 1")
     private Short quantity;
 
     @Embeddable
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-    public class PlayerCardTypeId implements Serializable {
+    static public class PlayerCardTypeId implements Serializable {
         private Long playerId;
         @Column(length = 20, name = "card_type_name", insertable = false, updatable = false)
         private String cardTypeName;

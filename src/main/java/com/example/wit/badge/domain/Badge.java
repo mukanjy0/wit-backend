@@ -25,7 +25,7 @@ public class Badge {
     private Short id;
     @ManyToOne(optional = false)
     Rarity rarity;
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String name;
     @Column(columnDefinition = "TEXT")
     private String description;

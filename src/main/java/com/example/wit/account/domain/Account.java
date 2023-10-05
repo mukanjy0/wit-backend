@@ -21,6 +21,8 @@ public class Account {
     private String handle;
     @ManyToOne
     Player player;
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer rating;
+    @Column(nullable = false)
     private String url;
 }

@@ -19,8 +19,9 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TeamSeq")
     private Long id;
-    @Column(length = 24)
+    @Column(length = 24, nullable = false)
     private String name;
     private Integer rank;
+    @Column(nullable = false)
     private Integer rating;
 }

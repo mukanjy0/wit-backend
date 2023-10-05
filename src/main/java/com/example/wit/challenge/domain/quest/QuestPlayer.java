@@ -25,7 +25,7 @@ public class QuestPlayer {
 
     @Embeddable
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-    public class QuestPlayerId implements Serializable {
+    static public class QuestPlayerId implements Serializable {
         @Column(name = "quest_id")
         private Long questId;
         @Column(name = "player_id")

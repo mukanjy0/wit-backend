@@ -21,9 +21,11 @@ public class Problem {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String statement;
+    @Column(nullable = false)
     private Integer memoryLimit;
+    @Column(nullable = false)
     private Short timeLimit;
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String sourceUrl;
     @ManyToMany(mappedBy = "problems")
     Set<Contest> contests;

@@ -24,6 +24,7 @@ public class CardType {
     Rarity rarity;
     @Column(length = 200)
     private String description;
+    @Column(nullable = false)
     private String imageUrl;
     @OneToMany(mappedBy = "cardType")
     Set<PlayerCardType> players;

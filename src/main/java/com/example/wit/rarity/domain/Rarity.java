@@ -16,7 +16,7 @@ public class Rarity {
     @Id
     @Column(length = 20)
     private String name;
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private String color;
     @OneToMany(mappedBy = "rarity")
     Set<Badge> badges;

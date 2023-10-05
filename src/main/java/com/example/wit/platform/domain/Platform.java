@@ -16,6 +16,7 @@ public class Platform {
     @Id
     @Column(length = 24)
     private String name;
+    @Column(nullable = false)
     private String url;
     @OneToMany(mappedBy = "platform")
     Set<Account> accounts;

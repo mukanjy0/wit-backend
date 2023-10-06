@@ -30,9 +30,9 @@ public class Contest {
     @ManyToOne(optional = false)
     Division division;
     @Column(nullable = false)
-    private LocalDateTime start;
+    private LocalDateTime start_datetime;
     @Column(nullable = false)
-    private LocalDateTime end;
+    private LocalDateTime end_datetime;
     private LocalTime duration;
     private String editorialUrl;
     @ManyToMany

@@ -22,15 +22,15 @@ import java.util.Set;
 @Entity
 @Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@SequenceGenerator(
-        name = "PlayerSeq",
-        sequenceName = "PLAYER_SEQ",
-        initialValue = 0,
-        allocationSize = 1
-)
+//@SequenceGenerator(
+//        name = "PlayerSeq",
+//        sequenceName = "PLAYER_SEQ",
+//        initialValue = 0,
+//        allocationSize = 1
+//)
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PlayerSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(optional = false)
     Category currentCategory;

@@ -33,7 +33,8 @@ public class Contest {
     private LocalDateTime start_datetime;
     @Column(nullable = false)
     private LocalDateTime end_datetime;
-    private LocalTime duration;
+    @Column(length = 10)
+    private String duration;
     private String editorialUrl;
     @ManyToMany
     Set<Problem> problems;

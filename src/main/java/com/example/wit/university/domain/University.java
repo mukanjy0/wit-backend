@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class University {
     @Id
-    @Column(length = 10)
+    @Column(length = 6)
     private String acronym;
     @Column(length = 50, nullable = false)
     private String fullName;

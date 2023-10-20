@@ -15,8 +15,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +33,7 @@ import java.util.Set;
 //        initialValue = 0,
 //        allocationSize = 1
 //)
-public class Player {
+public class Player implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -49,6 +54,8 @@ public class Player {
     @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer rating;
     private LocalDate registrationDate;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(mappedBy = "player")
     Set<Account> accounts;
     @OneToMany(mappedBy = "player")
@@ -67,4 +74,34 @@ public class Player {
     Set<QuestPlayer> quests;
     @ManyToMany
     Set<Player> friend;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority((role.name())));
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

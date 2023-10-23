@@ -4,7 +4,6 @@ import com.example.wit.account.domain.Account;
 import com.example.wit.badge.domain.Badge;
 import com.example.wit.challenge.domain.bet.BetPlayer;
 import com.example.wit.career.domain.Career;
-import com.example.wit.category.domain.Category;
 import com.example.wit.challenge.domain.quest.QuestPlayer;
 import com.example.wit.challenge.domain.versus.Versus;
 import com.example.wit.submission.domain.Submission;
@@ -37,10 +36,10 @@ public class Player implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(optional = false)
-    Category currentCategory;
-    @ManyToOne(optional = false)
-    Category bestCategory;
+    @Column(nullable = false)
+    private Short currentCategory;
+    @Column(nullable = false)
+    private Short bestCategory;
     @ManyToOne(optional = false)
     Career career;
     @ManyToOne(optional = false)

@@ -16,7 +16,9 @@ import java.util.Set;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Career {
     @Id
-    @Column(length = 50)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short id;
+    @Column(length = 50, nullable = false)
     private String name;
     @Column(length = 255)
     private String description;

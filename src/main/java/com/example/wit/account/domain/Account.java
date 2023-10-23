@@ -13,12 +13,12 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Account {
     @Id
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "platform_name", referencedColumnName = "name")
-    Platform platform;
-    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(length = 24)
     private String handle;
+    @ManyToOne
+    Platform platform;
     @ManyToOne
     Player player;
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")

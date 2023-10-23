@@ -1,6 +1,5 @@
 package com.example.wit.division.domain;
 
-import com.example.wit.category.domain.Category;
 import com.example.wit.contest.domain.Contest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

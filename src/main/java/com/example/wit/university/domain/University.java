@@ -17,6 +17,8 @@ import java.util.Set;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class University {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short id;
     @Column(length = 6)
     private String acronym;
     @Column(length = 50, nullable = false)

@@ -17,18 +17,17 @@ import java.util.Set;
 @Entity
 @Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@SequenceGenerator(
-        name = "ContestSeq",
-        sequenceName = "CONTEST_SEQ",
-        initialValue = 0,
-        allocationSize = 1
-)
+//@SequenceGenerator(
+//        name = "ContestSeq",
+//        sequenceName = "CONTEST_SEQ",
+//        initialValue = 0,
+//        allocationSize = 1
+//)
 public class Contest {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ContestSeq")
     private Long id;
-    @ManyToOne(optional = false)
-    Division division;
+    private Character division;
     @Column(nullable = false)
     private LocalDateTime start_datetime;
     @Column(nullable = false)

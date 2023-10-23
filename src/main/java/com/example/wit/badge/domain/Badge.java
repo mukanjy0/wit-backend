@@ -1,7 +1,6 @@
 package com.example.wit.badge.domain;
 
 import com.example.wit.player.domain.Player;
-import com.example.wit.rarity.domain.Rarity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,8 +22,8 @@ public class Badge {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BadgeSeq")
     private Short id;
-    @ManyToOne(optional = false)
-    Rarity rarity;
+    @Column(length = 20)
+    private String rarity;
     @Column(length = 100, nullable = false)
     private String name;
     @Column(columnDefinition = "TEXT")

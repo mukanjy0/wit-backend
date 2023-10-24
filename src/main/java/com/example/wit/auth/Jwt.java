@@ -8,7 +8,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;

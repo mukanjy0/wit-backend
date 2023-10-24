@@ -1,6 +1,5 @@
 package com.example.wit.exceptions;
 
-import com.example.wit.entities.player.exceptions.PlayerNotFoundException;
 import jakarta.annotation.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,15 +15,22 @@ import java.util.List;
 
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-//    @ExceptionHandler(value = PlayerNotFoundException.class)
+//    @ExceptionHandler(value = ElementNotFoundException.class)
 //    protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {
 //        String body = "something";
 //        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 //    }
 
-    @ExceptionHandler(value = PlayerNotFoundException.class)
-    protected ResponseEntity<ErrorBody> handlePlayerNotFoundException(PlayerNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(value = ElementNotFoundException.class)
+    protected ResponseEntity<ErrorBody> handlePlayerNotFoundException(ElementNotFoundException ex, WebRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return handleExceptionInternal(ex, new ErrorBody(errors), new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(value = ElementAlreadyExistsException.class)
+    protected ResponseEntity<ErrorBody> handleElementAlreadyExistsException(ElementAlreadyExistsException ex, WebRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         List<String> errors = Collections.singletonList(ex.getMessage());
         return handleExceptionInternal(ex, new ErrorBody(errors), new HttpHeaders(), status, request);
     }

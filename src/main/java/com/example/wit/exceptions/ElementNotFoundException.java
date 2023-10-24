@@ -1,4 +1,4 @@
-package com.example.wit.entities.player.exceptions;
+package com.example.wit.exceptions;
 
 public class ElementNotFoundException extends RuntimeException{
     final private String id;

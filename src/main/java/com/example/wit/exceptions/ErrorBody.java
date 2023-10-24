@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class ErrorMessage {
-    private String status;
-    private String message;
+    List<Error> errors;
 }

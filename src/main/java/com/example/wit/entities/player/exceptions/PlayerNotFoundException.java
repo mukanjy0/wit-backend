@@ -3,15 +3,15 @@ package com.example.wit.entities.player.exceptions;
 import lombok.AllArgsConstructor;
 
 public class PlayerNotFoundException extends RuntimeException{
-    final private String username;
-    public PlayerNotFoundException createWith(String username) {
-        return new PlayerNotFoundException(username);
+    final private String id;
+    public static PlayerNotFoundException createWith(String id) {
+        return new PlayerNotFoundException(id);
     }
-    private PlayerNotFoundException(String username) {
-        this.username = username;
+    private PlayerNotFoundException(String id) {
+        this.id = id;
     }
     @Override
     public String getMessage() {
-        return "Player '" + username + "' not found";
+        return "Player '" + id + "' not found";
     }
 }

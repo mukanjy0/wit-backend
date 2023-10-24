@@ -15,11 +15,11 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 24)
+    @Column(length = 24, nullable = false)
     private String handle;
-    @ManyToOne
+    @ManyToOne(optional = false)
     Platform platform;
-    @ManyToOne
+    @ManyToOne(optional = false)
     Player player;
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer rating;

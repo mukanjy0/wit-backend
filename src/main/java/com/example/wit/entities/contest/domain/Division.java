@@ -3,7 +3,6 @@ package com.example.wit.contest.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter @NoArgsConstructor @AllArgsConstructor
 public enum Division {

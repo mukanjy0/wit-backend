@@ -14,16 +14,16 @@ import java.util.Set;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class CardType {
     @Id
-    @Column(length = 20)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short id;
+    @Column(length = 20, nullable = false)
     private String name;
-    @Id
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String suit;
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String rarity;
     @Column(length = 200)
     private String description;
-    @Column(nullable = false)
     private String imageUrl;
     @OneToMany(mappedBy = "cardType")
     Set<PlayerCardType> players;

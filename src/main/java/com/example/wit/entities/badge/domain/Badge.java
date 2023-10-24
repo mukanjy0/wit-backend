@@ -12,23 +12,17 @@ import java.util.Set;
 @Entity
 @Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@SequenceGenerator(
-        name = "BadgeSeq",
-        sequenceName = "BADGE_SEQ",
-        initialValue = 0,
-        allocationSize = 1
-)
 public class Badge {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BadgeSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Short id;
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String rarity;
     @Column(length = 100, nullable = false)
     private String name;
     @Column(columnDefinition = "TEXT")
     private String description;
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String imageUrl;
     @ManyToMany(mappedBy = "badges")
     Set<Player> players;

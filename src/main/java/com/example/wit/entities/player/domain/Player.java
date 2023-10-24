@@ -26,15 +26,9 @@ import java.util.Set;
 @Entity
 @Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-//@SequenceGenerator(
-//        name = "PlayerSeq",
-//        sequenceName = "PLAYER_SEQ",
-//        initialValue = 0,
-//        allocationSize = 1
-//)
 public class Player implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private Short currentCategory;
@@ -86,21 +80,21 @@ public class Player implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

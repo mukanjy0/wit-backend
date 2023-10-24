@@ -1,6 +1,6 @@
-package com.example.wit.reward.domain;
+package com.example.wit.entities.reward.domain;
 
-import com.example.wit.cardtype.domain.CardType;
+import com.example.wit.entities.cardtype.domain.CardType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

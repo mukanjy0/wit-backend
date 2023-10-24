@@ -1,8 +1,8 @@
-package com.example.wit.career.domain;
+package com.example.wit.entities.career.domain;
 
-import com.example.wit.challenge.domain.Challenge;
-import com.example.wit.player.domain.Player;
-import com.example.wit.university.domain.University;
+import com.example.wit.entities.challenge.domain.Challenge;
+import com.example.wit.entities.player.domain.Player;
+import com.example.wit.entities.university.domain.University;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

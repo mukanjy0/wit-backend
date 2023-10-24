@@ -1,6 +1,6 @@
-package com.example.wit.badge.domain;
+package com.example.wit.entities.badge.domain;
 
-import com.example.wit.player.domain.Player;
+import com.example.wit.entities.player.domain.Player;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

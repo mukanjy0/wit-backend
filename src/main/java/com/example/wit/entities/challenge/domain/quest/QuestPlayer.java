@@ -1,6 +1,6 @@
-package com.example.wit.challenge.domain.quest;
+package com.example.wit.entities.challenge.domain.quest;
 
-import com.example.wit.player.domain.Player;
+import com.example.wit.entities.player.domain.Player;
 import jakarta.persistence.*;
 import lombok.*;
 

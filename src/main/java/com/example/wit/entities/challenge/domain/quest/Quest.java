@@ -1,7 +1,7 @@
-package com.example.wit.challenge.domain.quest;
+package com.example.wit.entities.challenge.domain.quest;
 
-import com.example.wit.challenge.domain.Challenge;
-import com.example.wit.problem.domain.Problem;
+import com.example.wit.entities.challenge.domain.Challenge;
+import com.example.wit.entities.problem.domain.Problem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

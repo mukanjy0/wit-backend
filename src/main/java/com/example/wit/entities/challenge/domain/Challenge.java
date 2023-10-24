@@ -1,12 +1,12 @@
-package com.example.wit.challenge.domain;
+package com.example.wit.entities.challenge.domain;
 
-import com.example.wit.challenge.domain.bet.Bet;
-import com.example.wit.career.domain.Career;
-import com.example.wit.challenge.domain.quest.Quest;
-import com.example.wit.challenge.domain.versus.Versus;
-import com.example.wit.reward.domain.Reward;
-import com.example.wit.rule.domain.Rule;
-import com.example.wit.university.domain.University;
+import com.example.wit.entities.challenge.domain.bet.Bet;
+import com.example.wit.entities.career.domain.Career;
+import com.example.wit.entities.challenge.domain.quest.Quest;
+import com.example.wit.entities.challenge.domain.versus.Versus;
+import com.example.wit.entities.reward.domain.Reward;
+import com.example.wit.entities.rule.domain.Rule;
+import com.example.wit.entities.university.domain.University;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

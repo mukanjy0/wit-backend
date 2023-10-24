@@ -1,6 +1,6 @@
-package com.example.wit.reward.domain;
+package com.example.wit.entities.reward.domain;
 
-import com.example.wit.challenge.domain.Challenge;
+import com.example.wit.entities.challenge.domain.Challenge;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

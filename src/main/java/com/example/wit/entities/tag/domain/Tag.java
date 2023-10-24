@@ -1,6 +1,6 @@
-package com.example.wit.tag.domain;
+package com.example.wit.entities.tag.domain;
 
-import com.example.wit.problem.domain.Problem;
+import com.example.wit.entities.problem.domain.Problem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

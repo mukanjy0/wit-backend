@@ -1,4 +1,4 @@
-package com.example.wit.player.domain;
+package com.example.wit.entities.player.domain;
 
 public enum Role {
     USER,

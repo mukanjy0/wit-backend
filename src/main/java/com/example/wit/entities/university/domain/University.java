@@ -1,14 +1,13 @@
-package com.example.wit.university.domain;
+package com.example.wit.entities.university.domain;
 
-import com.example.wit.career.domain.Career;
-import com.example.wit.challenge.domain.Challenge;
-import com.example.wit.player.domain.Player;
+import com.example.wit.entities.career.domain.Career;
+import com.example.wit.entities.challenge.domain.Challenge;
+import com.example.wit.entities.player.domain.Player;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
 
 import java.util.Set;
 

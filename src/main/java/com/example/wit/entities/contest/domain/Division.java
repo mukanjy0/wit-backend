@@ -1,4 +1,4 @@
-package com.example.wit.contest.domain;
+package com.example.wit.entities.contest.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

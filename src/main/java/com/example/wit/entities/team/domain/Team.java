@@ -1,4 +1,4 @@
-package com.example.wit.team.domain;
+package com.example.wit.entities.team.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

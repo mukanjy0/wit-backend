@@ -1,4 +1,4 @@
-package com.example.wit.cardtype.domain;
+package com.example.wit.entities.cardtype.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

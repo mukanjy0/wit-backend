@@ -1,6 +1,6 @@
-package com.example.wit.player.domain;
+package com.example.wit.entities.player.domain;
 
-import com.example.wit.cardtype.domain.CardType;
+import com.example.wit.entities.cardtype.domain.CardType;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,6 +1,6 @@
-package com.example.wit.platform.domain;
+package com.example.wit.entities.platform.domain;
 
-import com.example.wit.account.domain.Account;
+import com.example.wit.entities.account.domain.Account;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.example.wit.challenge.domain.bet;
+package com.example.wit.entities.challenge.domain.bet;
 
-import com.example.wit.challenge.domain.Challenge;
-import com.example.wit.contest.domain.Contest;
+import com.example.wit.entities.challenge.domain.Challenge;
+import com.example.wit.entities.contest.domain.Contest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

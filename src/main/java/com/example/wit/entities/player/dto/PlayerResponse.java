@@ -18,14 +18,13 @@ import java.util.Set;
 @Accessors(fluent = true)
 @Getter @Setter @RequiredArgsConstructor
 public class PlayerResponse {
-    final private Long id;
     final private String username;
     final private Integer points;
     final private Integer rating;
     final private Short currentCategory;
     final private Short bestCategory;
     final private LocalDate registrationDate;
-    final Career career;
-    final University university;
-    final Team team;
+    final private Short careerId;
+    final private Short universityId;
+    final private Long teamId;
 }

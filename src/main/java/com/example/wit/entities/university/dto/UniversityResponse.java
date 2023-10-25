@@ -1,13 +1,12 @@
 package com.example.wit.entities.university.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
-@Getter @RequiredArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class UniversityResponse {
-    final private Short id;
-    final private String acronym;
-    final private String fullName;
+     private Short id;
+     private String acronym;
+     private String fullName;
 }

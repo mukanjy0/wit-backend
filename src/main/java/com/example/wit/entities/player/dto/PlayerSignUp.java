@@ -3,21 +3,24 @@ package com.example.wit.entities.player.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 @Data
-@Getter @Setter @RequiredArgsConstructor
+@Getter
+@Accessors(fluent = true)
+@NoArgsConstructor @AllArgsConstructor
 public class PlayerSignUp {
     @Size(max = 24)
     @NotBlank
-    final private String username;
-    final private Integer points;
-    final private Integer rating;
-    final private Short currentCategory;
-    final private Short bestCategory;
+    private String username;
+    private Integer points;
+    private Integer rating;
+    private Short currentCategory;
+    private Short bestCategory;
     @NonNull
-    final private Short careerId;
+    private Short careerId;
     @NonNull
-    final private Short universityId;
+    private Short universityId;
     @NonNull
-    final private Long teamId;
+    private Long teamId;
 }

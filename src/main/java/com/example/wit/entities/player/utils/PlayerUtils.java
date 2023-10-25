@@ -7,14 +7,13 @@ import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.security.web.header.writers.CrossOriginEmbedderPolicyHeaderWriter;
+//import org.springframework.security.web.header.writers.CrossOriginEmbedderPolicyHeaderWriter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PlayerUtils {
     @Autowired
     private PlayerRepository repository;
-    @Autowired
 
     public static Player updatePlayer(Player original, PlayerUpdate toUpdate) {
        if (toUpdate.getPoints() != null) original.setPoints(toUpdate.getPoints());

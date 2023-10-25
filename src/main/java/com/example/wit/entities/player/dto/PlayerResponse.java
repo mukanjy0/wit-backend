@@ -8,6 +8,7 @@ import com.example.wit.entities.university.domain.University;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -15,16 +16,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Data
-@Accessors(fluent = true)
-@Getter @Setter @RequiredArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class PlayerResponse {
-    final private String username;
-    final private Integer points;
-    final private Integer rating;
-    final private Short currentCategory;
-    final private Short bestCategory;
-    final private LocalDate registrationDate;
-    final private Short careerId;
-    final private Short universityId;
-    final private Long teamId;
+    private String username;
+    private Integer points;
+    private Integer rating;
+    private Short currentCategory;
+    private Short bestCategory;
+    private LocalDate registrationDate;
+    private Short careerId;
+    private Short universityId;
+    private Long teamId;
 }

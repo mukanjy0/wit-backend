@@ -1,18 +1,16 @@
 package com.example.wit.entities.player.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Data
-@Getter @Setter @RequiredArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class PlayerUpdate {
-    final private Integer points;
-    final private Integer rating;
-    final private Short currentCategory;
-    final private Short bestCategory;
-    final private Short careerId;
-    final private Short universityId;
-    final private Long teamId;
+    private Integer points;
+    private Integer rating;
+    private Short currentCategory;
+    private Short bestCategory;
+    private Short careerId;
+    private Short universityId;
+    private Long teamId;
 }

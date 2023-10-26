@@ -34,7 +34,7 @@ public class UniversityService {
     public ResponseEntity<UniversityResponse> read(Short id) {
         Optional<University> university  = repository.findById(id);
         if (university.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("University", id.toString());
         }
 
         return new ResponseEntity<>(mapper.map(university.get(), UniversityResponse.class), HttpStatus.OK);
@@ -53,7 +53,7 @@ public class UniversityService {
     public ResponseEntity<String> update(Short id, UniversityRequest university) {
         Optional<University> original = repository.findById(id);
         if (original.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("University", id.toString());
         }
 
         University previous = original.get();
@@ -80,7 +80,7 @@ public class UniversityService {
     public ResponseEntity<String> delete(Short id) {
         Optional<University> university = repository.findById(id);
         if (university.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("University", id.toString());
         }
 
         repository.deleteById(id);

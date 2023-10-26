@@ -34,7 +34,7 @@ public class CareerService {
     public ResponseEntity<CareerResponse> read (Short id) {
         Optional<Career> career = repository.findById(id);
         if (career.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Career", id.toString());
         }
         return new ResponseEntity<>(mapper.map(career.get(), CareerResponse.class), HttpStatus.OK);
     }
@@ -53,7 +53,7 @@ public class CareerService {
     public ResponseEntity<String> update (Short id, CareerRequest career) {
         Optional<Career> original = repository.findById(id);
         if (original.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Career", id.toString());
         }
         Career previous = original.get();
         String name = previous.getName();
@@ -71,7 +71,7 @@ public class CareerService {
     public ResponseEntity<String> delete(Short id) {
         Optional<Career> career = repository.findById(id);
         if (career.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Career", id.toString());
         }
         repository.deleteById(id);
         return ResponseEntity.status(200).body("Career deleted.");

@@ -30,7 +30,7 @@ public class PlatformService {
         Optional<Platform> platform = repository.findById(id);
 
         if (platform.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Platform", id.toString());
         }
 
         return new ResponseEntity<>(mapper.map(platform.get(), PlatformResponse.class), HttpStatus.OK);
@@ -50,7 +50,7 @@ public class PlatformService {
     public ResponseEntity<String> update (Short id, PlatformRequest platform) {
         Optional<Platform> original = repository.findById(id);
         if (original.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Platform", id.toString());
         }
 
         Platform previous = original.get();
@@ -76,7 +76,7 @@ public class PlatformService {
     public ResponseEntity<String> delete (Short id) {
         Optional<Platform> platform = repository.findById(id);
         if (platform.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Platform", id.toString());
         }
 
         repository.deleteById(id);

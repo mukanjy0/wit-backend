@@ -28,7 +28,7 @@ public class PlayerService {
     public ResponseEntity<Player> read (Long id) throws ElementNotFoundException {
         Optional<Player>  player = repository.findById(id);
         if (player.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Player", id.toString());
         }
 
         return new ResponseEntity<>(player.get(), HttpStatus.OK);
@@ -41,7 +41,7 @@ public class PlayerService {
     public ResponseEntity<String> update (Long id, PlayerUpdate p) throws ElementNotFoundException, IllegalArgumentException {
         Optional<Player> original = repository.findById(id);
         if (original.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Player", id.toString());
         }
         Player player = original.get();
         try {
@@ -56,7 +56,7 @@ public class PlayerService {
     public ResponseEntity<String> delete (Long id) throws ElementNotFoundException {
         Optional<Player> player = repository.findById(id);
         if (player.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Player", id.toString());
         }
         repository.deleteById(id);
         return ResponseEntity.status(200).body("Player with id " + id.toString() + " deleted.");

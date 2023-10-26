@@ -23,16 +23,18 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = ElementNotFoundException.class)
     protected ResponseEntity<ErrorBody> handlePlayerNotFoundException(ElementNotFoundException ex, WebRequest request) {
+        String statusCode = "404";
         HttpStatus status = HttpStatus.NOT_FOUND;
         List<String> errors = Collections.singletonList(ex.getMessage());
-        return handleExceptionInternal(ex, new ErrorBody(errors), new HttpHeaders(), status, request);
+        return handleExceptionInternal(ex, new ErrorBody(statusCode, errors), new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(value = ElementAlreadyExistsException.class)
     protected ResponseEntity<ErrorBody> handleElementAlreadyExistsException(ElementAlreadyExistsException ex, WebRequest request){
+        String statusCode = "400";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         List<String> errors = Collections.singletonList(ex.getMessage());
-        return handleExceptionInternal(ex, new ErrorBody(errors), new HttpHeaders(), status, request);
+        return handleExceptionInternal(ex, new ErrorBody(statusCode, errors), new HttpHeaders(), status, request);
     }
 
     protected ResponseEntity<ErrorBody> handleExceptionInternal(Exception ex, @Nullable ErrorBody body,

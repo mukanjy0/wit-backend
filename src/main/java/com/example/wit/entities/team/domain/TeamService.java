@@ -30,7 +30,7 @@ public class TeamService {
     public ResponseEntity<TeamResponse> read (Long id) {
         Optional<Team> team = repository.findById(id);
         if (team.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Team", id.toString());
         }
 
         TeamResponse response = mapper.map(team.get(), TeamResponse.class);
@@ -54,7 +54,7 @@ public class TeamService {
     public ResponseEntity<String> update (Long id, TeamRequest team) {
         Optional<Team> original = repository.findById(id);
         if (original.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Team", id.toString());
         }
 
         Team previous = original.get();
@@ -74,7 +74,7 @@ public class TeamService {
     public ResponseEntity<String> delete (Long id) {
         Optional<Team> team = repository.findById(id);
         if (team.isEmpty()) {
-            throw ElementNotFoundException.createWith(id.toString());
+            throw ElementNotFoundException.createWith("Team", id.toString());
         }
 
         repository.deleteById(id);

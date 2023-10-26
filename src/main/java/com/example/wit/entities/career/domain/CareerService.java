@@ -41,11 +41,10 @@ public class CareerService {
 
     public ResponseEntity<String> create (CareerRequest career) {
         String name = career.getName();
-        String idName = "name";
 
         Optional<Career> original = repository.findCareerByName(name);
         if (original.isPresent()) {
-            throw ElementAlreadyExistsException.createWith(name, idName);
+            throw ElementAlreadyExistsException.createWith(name, "name");
         }
         repository.save(mapper.map(career, Career.class));
         return ResponseEntity.status(201).body("Career created.");
@@ -63,8 +62,7 @@ public class CareerService {
         String newName = updated.getName();
 
         if (!name.equals(newName) && repository.existsCareerByName(newName)) {
-            String idName = "name" ;
-            throw ElementAlreadyExistsException.createWith(newName, idName);
+            throw ElementAlreadyExistsException.createWith(newName, "name");
         }
         repository.save(updated);
         return ResponseEntity.status(200).body("Career updated.");

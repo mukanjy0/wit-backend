@@ -66,13 +66,11 @@ public class UniversityService {
 
         if (!acronym.equals(newAcronym)
                 && repository.existsUniversityByAcronym(newAcronym)) {
-            String idName = "acronym";
-            throw ElementAlreadyExistsException.createWith(newAcronym, idName);
+            throw ElementAlreadyExistsException.createWith(newAcronym, "acronym");
         }
         if (!fullName.equals(newFullName)
                 && repository.existsUniversityByFullName(newFullName)) {
-            String idName = "full name";
-            throw ElementAlreadyExistsException.createWith(newFullName, idName);
+            throw ElementAlreadyExistsException.createWith(newFullName, "full name");
         }
 
         repository.save(updated);

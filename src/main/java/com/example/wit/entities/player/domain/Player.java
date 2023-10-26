@@ -48,8 +48,8 @@ public class Player {
     @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer rating;
     private LocalDate registrationDate;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
     @OneToMany(mappedBy = "player")
     Set<Account> accounts;
     @OneToMany(mappedBy = "player")

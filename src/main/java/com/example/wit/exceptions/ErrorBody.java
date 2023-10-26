@@ -9,5 +9,6 @@ import java.util.List;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class ErrorBody {
+    String statusCode;
     List<String> errors;
 }

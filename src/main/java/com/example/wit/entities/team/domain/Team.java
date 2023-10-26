@@ -12,6 +12,11 @@ import java.util.Set;
 @Entity
 @Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+//@NamedStoredProcedureQuery(name = "Team.getRank", procedureName = "get_team_rank", parameters = {
+//        @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_id", type = Long.class),
+//        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "rank", type = Long.class),
+//}
+//)
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

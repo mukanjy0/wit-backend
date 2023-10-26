@@ -33,7 +33,10 @@ public class TeamService {
             throw ElementNotFoundException.createWith(id.toString());
         }
 
-        return new ResponseEntity<>(mapper.map(team.get(), TeamResponse.class), HttpStatus.OK);
+        TeamResponse response = mapper.map(team.get(), TeamResponse.class);
+        response.setRank(repository.getTeamRank(id));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public ResponseEntity<String> create (TeamRequest team) {

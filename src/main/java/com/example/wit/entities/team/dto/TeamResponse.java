@@ -8,6 +8,6 @@ import lombok.*;
 public class TeamResponse {
     private Long id;
     private String name;
-//    private Integer rank;
     private Integer rating;
+    private Long rank;
 }

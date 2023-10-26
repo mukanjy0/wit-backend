@@ -1,15 +1,16 @@
 package com.example.wit.exceptions;
 
 public class ElementNotFoundException extends RuntimeException{
+    final private String entityName;
     final private String id;
-    public static ElementNotFoundException createWith(String id) {
-        return new ElementNotFoundException(id);
+    public static ElementNotFoundException createWith(String entityName, String id) {
+        return new ElementNotFoundException(entityName, id);
     }
-    private ElementNotFoundException(String id) {
+    private ElementNotFoundException(String entityName, String id) {
         this.id = id;
     }
     @Override
     public String getMessage() {
-        return "Player '" + id + "' not found";
+        return entityName + " '" + id + "' not found";
     }
 }

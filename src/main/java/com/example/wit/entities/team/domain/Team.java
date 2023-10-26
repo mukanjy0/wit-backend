@@ -18,7 +18,6 @@ public class Team {
     private Long id;
     @Column(length = 24, nullable = false)
     private String name;
-    private Integer rank;
     private Integer rating;
     @OneToMany(mappedBy = "team")
     Set<Player> players;

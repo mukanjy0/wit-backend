@@ -56,7 +56,26 @@ public class UniversityService {
             throw ElementNotFoundException.createWith(id.toString());
         }
 
-        repository.save(UniversityUtils.updateUniversity(original.get(), university));
+        University previous = original.get();
+        String acronym = previous.getAcronym();
+        String fullName = previous.getFullName();
+
+        University updated = UniversityUtils.updateUniversity(previous, university);
+        String newAcronym = updated.getAcronym();
+        String newFullName = updated.getFullName();
+
+        if (!acronym.equals(newAcronym)
+                && repository.existsUniversityByAcronym(newAcronym)) {
+            String idName = "acronym";
+            throw ElementAlreadyExistsException.createWith(newAcronym, idName);
+        }
+        if (!fullName.equals(newFullName)
+                && repository.existsUniversityByFullName(newFullName)) {
+            String idName = "full name";
+            throw ElementAlreadyExistsException.createWith(newFullName, idName);
+        }
+
+        repository.save(updated);
         return ResponseEntity.status(200).body("University updated.");
     }
 

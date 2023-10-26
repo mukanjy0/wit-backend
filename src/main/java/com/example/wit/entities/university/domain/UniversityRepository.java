@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface UniversityRepository extends JpaRepository<University, Short> {
     Optional<University> findUniversityByFullName(String fullName);
+    Boolean existsUniversityByFullName(String fullName);
+    Boolean existsUniversityByAcronym(String acronym);
 }

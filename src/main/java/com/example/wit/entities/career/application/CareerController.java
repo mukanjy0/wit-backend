@@ -22,7 +22,7 @@ public class CareerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CareerResponse> read (Short id) {
+    public ResponseEntity<CareerResponse> read (@PathVariable Short id) {
         return service.read(id);
     }
 

@@ -14,9 +14,11 @@ import java.util.Set;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Platform {
     @Id
-    @Column(length = 24)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short id;
+    @Column(length = 24, unique = true, nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String url;
     @OneToMany(mappedBy = "platform")
     Set<Account> accounts;

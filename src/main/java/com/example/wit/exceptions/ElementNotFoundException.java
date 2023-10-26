@@ -7,6 +7,7 @@ public class ElementNotFoundException extends RuntimeException{
         return new ElementNotFoundException(entityName, id);
     }
     private ElementNotFoundException(String entityName, String id) {
+        this.entityName = entityName;
         this.id = id;
     }
     @Override

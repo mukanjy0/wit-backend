@@ -14,12 +14,4 @@ public class AccountResponse {
     private Long playerId;
     private Integer rating;
     private String url;
-
-    public void setPlatformId(Platform platform) {
-        this.platformId = platform.getId();
-    }
-
-    public void setPlayerId(Player player) {
-        this.playerId = player.getId();
-    }
 }

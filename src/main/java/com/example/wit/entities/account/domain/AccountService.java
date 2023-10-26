@@ -5,6 +5,7 @@ import com.example.wit.entities.account.dto.AccountResponse;
 import com.example.wit.entities.account.utils.AccountUtils;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,17 @@ public class AccountService {
     @Autowired
     private AccountRepository repository;
     TypeMap<Account, AccountResponse> propertyMapper;
-    public AccountService() {
-        propertyMapper = mapper.createTypeMap(Account.class, AccountResponse.class);
-        propertyMapper.addMapping(Account::getPlatform, AccountResponse::setPlatformId);
-        propertyMapper.addMapping(Account::getPlayer, AccountResponse::setPlayerId);
-    }
 
+    @PostConstruct
+    private void configureMapper() {
+        propertyMapper = mapper.createTypeMap(Account.class, AccountResponse.class);
+        propertyMapper.addMappings(
+                mapper -> mapper.map(account -> account.getPlatform().getId(), AccountResponse::setPlatformId)
+        );
+        propertyMapper.addMappings(
+                mapper -> mapper.map(account -> account.getPlayer().getId(), AccountResponse::setPlayerId)
+        );
+    }
 
     public ResponseEntity<List<AccountResponse>> read() {
         List<AccountResponse> accounts = repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();

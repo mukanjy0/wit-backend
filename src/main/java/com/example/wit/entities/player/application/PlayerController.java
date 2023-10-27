@@ -4,10 +4,12 @@ import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerService;
 import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerSignUp;
+import com.example.wit.entities.player.dto.PlayerUpdate;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,16 +20,25 @@ import java.util.List;
 public class PlayerController {
     @Autowired
     private PlayerService service;
+
     @GetMapping
     public ResponseEntity<List<PlayerResponse>> read() {
-        return service.read();
+        return new ResponseEntity<>(service.read(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PlayerResponse> read(@PathVariable Long id) {
-        return service.read(id);
+        return new ResponseEntity<>(service.read(id), HttpStatus.OK);
     }
-    @PostMapping
-    public ResponseEntity<String> create(@Valid @RequestBody PlayerSignUp player) {
-        return service.create(player);
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody PlayerUpdate player) {
+        service.update(id, player);
+
+        return ResponseEntity.status(200).body("Player with id " + id.toString() + " updated.");
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        service.delete(id);
+
+        return ResponseEntity.status(200).body("Player with id " + id.toString() + " deleted.");
     }
 }

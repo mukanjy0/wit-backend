@@ -1,10 +1,11 @@
 package com.example.wit.entities.player.domain;
 
+import com.example.wit.auth.domain.JwtService;
+import com.example.wit.auth.dto.JwtAuthenticationResponse;
 import com.example.wit.entities.career.domain.Career;
 import com.example.wit.entities.career.domain.CareerRepository;
-import com.example.wit.entities.player.domain.category.Category;
-import com.example.wit.entities.player.domain.role.Role;
 import com.example.wit.entities.player.dto.PlayerResponse;
+import com.example.wit.entities.player.dto.PlayerSignIn;
 import com.example.wit.entities.player.dto.PlayerSignUp;
 import com.example.wit.entities.player.dto.PlayerUpdate;
 import com.example.wit.entities.team.domain.Team;
@@ -14,20 +15,20 @@ import com.example.wit.entities.university.domain.UniversityRepository;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import com.example.wit.entities.player.utils.PlayerUtils;
-import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class PlayerService {
@@ -42,35 +43,72 @@ public class PlayerService {
     @Autowired
     private UniversityRepository universityRepository;
 
-//    @PostConstruct
-//    private void configureModelMapper() {
-//    }
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    public ResponseEntity<List<PlayerResponse>> read () {
-        List<PlayerResponse> players = repository.findAll().stream().map(player -> mapper.map(player, PlayerResponse.class)).toList();
-        return new ResponseEntity<>(players, HttpStatus.OK);
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                Optional<Player> player = repository.findPlayerByUsername(username);
+                if (player.isEmpty()) {
+                    throw new UsernameNotFoundException("Player with username '" + username + "' not found");
+                }
+                return player.get();
+            }
+        };
     }
 
-    public ResponseEntity<PlayerResponse> read (Long id) throws ElementNotFoundException {
+    public List<PlayerResponse> read () {
+        return repository.findAll().stream().map(player -> mapper.map(player, PlayerResponse.class)).toList();
+    }
+
+    public PlayerResponse read (Long id) throws ElementNotFoundException {
         Optional<Player>  player = repository.findById(id);
         if (player.isEmpty()) {
             throw ElementNotFoundException.createWith("Player", id.toString());
         }
 
-        return new ResponseEntity<>(mapper.map(player.get(), PlayerResponse.class), HttpStatus.OK);
+        return mapper.map(player.get(), PlayerResponse.class);
     }
-    public ResponseEntity<String> create (PlayerSignUp player) {
+    public JwtAuthenticationResponse signUp (PlayerSignUp player) {
+        String username = player.getUsername();
+        if (repository.existsPlayerByUsername(username)) {
+            throw ElementAlreadyExistsException.createWith(username, "username");
+        }
+
         Player newPlayer = mapper.map(player, Player.class);
-        newPlayer.setPassword(player.getPassword());
+        newPlayer.setPassword(passwordEncoder.encode(player.getPassword()));
         newPlayer.setBestCategory(newPlayer.getCurrentCategory());
         newPlayer.setRegistrationDate(LocalDate.now());
 
         repository.save(newPlayer);
 
-        return ResponseEntity.status(201).body("Player created.");
+        String jwt = jwtService.generateToken(newPlayer);
+
+        return  new JwtAuthenticationResponse(jwt);
     }
 
-    public ResponseEntity<String> update (Long id, PlayerUpdate player) throws ElementNotFoundException, IllegalArgumentException {
+    public JwtAuthenticationResponse signIn (PlayerSignIn player) {
+        String username = player.getUsername();
+        String password = player.getPassword();
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        Optional<Player> user = repository.findPlayerByUsername(username);
+        if (user.isEmpty()) {
+            throw ElementNotFoundException.createWith("Player", username);
+        }
+
+        String jwt = jwtService.generateToken(user.get());
+
+        return new JwtAuthenticationResponse(jwt);
+    }
+
+    public void update (Long id, PlayerUpdate player) {
         Optional<Player> original = repository.findById(id);
         if (original.isEmpty()) {
             throw ElementNotFoundException.createWith("Player", id.toString());
@@ -106,16 +144,13 @@ public class PlayerService {
         updated.setUniversity(university.get());
 
         repository.save(updated);
-
-        return ResponseEntity.status(200).body("Player with id " + id.toString() + " updated.");
     }
 
-    public ResponseEntity<String> delete (Long id) throws ElementNotFoundException {
+    public void delete (Long id) {
         Optional<Player> player = repository.findById(id);
         if (player.isEmpty()) {
             throw ElementNotFoundException.createWith("Player", id.toString());
         }
         repository.deleteById(id);
-        return ResponseEntity.status(200).body("Player with id " + id.toString() + " deleted.");
     }
 }

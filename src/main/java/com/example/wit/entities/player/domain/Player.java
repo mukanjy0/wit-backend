@@ -6,6 +6,8 @@ import com.example.wit.entities.challenge.domain.bet.BetPlayer;
 import com.example.wit.entities.career.domain.Career;
 import com.example.wit.entities.challenge.domain.quest.QuestPlayer;
 import com.example.wit.entities.challenge.domain.versus.Versus;
+import com.example.wit.entities.player.domain.category.Category;
+import com.example.wit.entities.player.domain.role.Role;
 import com.example.wit.entities.submission.domain.Submission;
 import com.example.wit.entities.team.domain.Team;
 import com.example.wit.entities.university.domain.University;
@@ -19,8 +21,6 @@ import lombok.Setter;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,27 +31,25 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 24, nullable = false)
+    @Column(length = 24, unique = true, nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;
+    private Integer points;
     @Column(nullable = false)
-    private Short currentCategory;
-    @Column(nullable = false)
-    private Short bestCategory;
+    private Integer rating;
+    private Category bestCategory;
+    private Category currentCategory;
+    private String avatarUrl;
+    private LocalDate registrationDate;
+    private Role role;
+    @ManyToOne(optional = false)
+    Team team;
     @ManyToOne(optional = false)
     Career career;
     @ManyToOne(optional = false)
     University university;
-    @ManyToOne
-    Team team;
-    @Column(columnDefinition = "INTEGER DEFAULT 0")
-    private Integer points;
-    @Column(columnDefinition = "INTEGER DEFAULT 0")
-    private Integer rating;
-    private LocalDate registrationDate;
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
+
     @OneToMany(mappedBy = "player")
     Set<Account> accounts;
     @OneToMany(mappedBy = "player")

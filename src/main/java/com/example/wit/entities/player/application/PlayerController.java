@@ -2,6 +2,7 @@ package com.example.wit.entities.player.application;
 
 import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerService;
+import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerSignUp;
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -18,11 +19,11 @@ public class PlayerController {
     @Autowired
     private PlayerService service;
     @GetMapping
-    public ResponseEntity<List<Player>> read() {
+    public ResponseEntity<List<PlayerResponse>> read() {
         return service.read();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Player> read(@PathVariable Long id) {
+    public ResponseEntity<PlayerResponse> read(@PathVariable Long id) {
         return service.read(id);
     }
     @PostMapping

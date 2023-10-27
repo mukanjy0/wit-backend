@@ -1,5 +1,6 @@
 package com.example.wit.auth.application;
 
+import com.example.wit.auth.domain.AuthService;
 import com.example.wit.auth.dto.JwtAuthenticationResponse;
 import com.example.wit.entities.player.domain.PlayerService;
 import com.example.wit.entities.player.dto.PlayerSignIn;
@@ -20,14 +21,14 @@ public class AuthController {
     @Autowired
     private ModelMapper mapper;
     @Autowired
-    private PlayerService userService;
+    private AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<JwtAuthenticationResponse> signUp(@Valid @RequestBody PlayerSignUp player) {
-        return new ResponseEntity<>(userService.signUp(player), HttpStatus.CREATED);
+        return new ResponseEntity<>(authService.signUp(player), HttpStatus.CREATED);
     }
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signIn(@Valid @RequestBody PlayerSignIn player) {
-        return new ResponseEntity<>(userService.signIn(player), HttpStatus.OK);
+        return new ResponseEntity<>(authService.signIn(player), HttpStatus.OK);
     }
 }

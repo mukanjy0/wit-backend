@@ -1,4 +1,4 @@
-package com.example.wit.auth;
+package com.example.wit.auth.domain;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
 
-@Accessors(fluent = true)
 @Getter @NoArgsConstructor @AllArgsConstructor
 public class Jwt {
     private String jwtSigningKey;

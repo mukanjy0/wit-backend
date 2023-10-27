@@ -1,4 +1,4 @@
-package com.example.wit.entities.cardtype.domain;
+package com.example.wit.entities.cardtype.domain.rarity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +14,6 @@ public enum Rarity {
     MYTHICAL("Mythical", "ff66cc"),
     TRASCENDENT("Transcendent", "4d4dff"),
     GODLIKE("Godlike", "c41f3b");
-    private String name;
+    private String rarity;
     private String color;
 }

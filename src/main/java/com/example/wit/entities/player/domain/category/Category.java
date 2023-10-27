@@ -3,7 +3,9 @@ package com.example.wit.entities.player.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+@Accessors(fluent = true)
 @Getter @NoArgsConstructor @AllArgsConstructor
 public enum Category {
     HONORED_ONE((short)0, "Honored one", '0', "ffffff", 70000, 100000),

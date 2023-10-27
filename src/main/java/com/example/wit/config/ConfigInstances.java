@@ -7,10 +7,14 @@ import com.example.wit.entities.career.domain.CareerRepository;
 import com.example.wit.entities.platform.domain.PlatformRepository;
 import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerRepository;
+import com.example.wit.entities.player.domain.category.Category;
+import com.example.wit.entities.player.domain.category.CategoryConverter;
+import com.example.wit.entities.player.domain.role.Role;
 import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerSignUp;
 import com.example.wit.entities.team.domain.TeamRepository;
 import com.example.wit.entities.university.domain.UniversityRepository;
+import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeMap;
@@ -19,36 +23,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.stream.Stream;
+
 @Configuration
 public class ConfigInstances {
     @Autowired
-    private UniversityRepository universityRepository;
-    @Autowired
-    private CareerRepository careerRepository;
-    @Autowired
-    private TeamRepository teamRepository;
+    private PlayerRepository playerRepository;
     @Autowired
     private PlatformRepository platformRepository;
     @Autowired
-    private PlayerRepository playerRepository;
+    private TeamRepository teamRepository;
+    @Autowired
+    private CareerRepository careerRepository;
+    @Autowired
+    private UniversityRepository universityRepository;
+
     @Bean
     public ModelMapper instanceModelMapper() {
         ModelMapper mapper = new ModelMapper();
 
-//        TypeMap<PlayerSignUp, Player> typeMap = mapper.createTypeMap(PlayerSignUp.class, Player.class);
-//
-//        PropertyMap<PlayerSignUp, Player> propertyMap = new PropertyMap<PlayerSignUp, Player>() {
-//            @Override
-//            protected void configure() {
-//                skip(player.setId());
-//            }
-//        }
+        mapper.getConfiguration().setSkipNullEnabled(true);
 
         mapper.getConfiguration().setAmbiguityIgnored(true);
+
         mapper.typeMap(AccountRequest.class, Account.class).addMappings(
                 mpr -> {
-                    mpr.map(account -> platformRepository.findById(account.getPlatformId()), Account::setPlatform);
-                    mpr.map(account -> playerRepository.findById(account.getPlayerId()), Account::setPlayer);
+                    mpr.skip(Account::setId);
+                    mpr.using(ctx -> platformRepository.findById((Short) ctx.getSource()).get())
+                            .map(AccountRequest::getPlatformId, Account::setPlatform);
+                    mpr.using(ctx -> playerRepository.findById((Long) ctx.getSource()).get())
+                            .map(AccountRequest::getPlayerId, Account::setPlayer);
                 }
         );
 
@@ -59,25 +63,8 @@ public class ConfigInstances {
                 }
         );
 
-        mapper.typeMap(PlayerSignUp.class, Player.class).addMappings(
-                mpr -> {
-                    mpr.skip(Player::setId);
-                    mpr.map(player -> universityRepository.findById(player.getUniversityId()), Player::setUniversity);
-                    mpr.map(player -> careerRepository.findById(player.getCareerId()), Player::setCareer);
-                    mpr.map(player -> teamRepository.findById(player.getTeamId()), Player::setTeam);
-                }
-        );
-
-        mapper.typeMap(Player.class, PlayerResponse.class).addMappings(
-                mpr -> {
-                    mpr.map(player -> player.getUniversity().getId(), PlayerResponse::setUniversityId);
-                    mpr.map(player -> player.getCareer().getId(), PlayerResponse::setCareerId);
-                    mpr.map(player -> player.getTeam().getId(), PlayerResponse::setTeamId);
-                }
-        );
         mapper.getConfiguration().setAmbiguityIgnored(false);
 
         return mapper;
-
     }
 }

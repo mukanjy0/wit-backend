@@ -3,6 +3,8 @@ package com.example.wit.entities.account.domain;
 import com.example.wit.entities.account.dto.AccountRequest;
 import com.example.wit.entities.account.dto.AccountResponse;
 import com.example.wit.entities.account.utils.AccountUtils;
+import com.example.wit.entities.platform.domain.PlatformRepository;
+import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import jakarta.annotation.PostConstruct;
@@ -24,18 +26,10 @@ public class AccountService {
     private ModelMapper mapper;
     @Autowired
     private AccountRepository repository;
-    TypeMap<Account, AccountResponse> propertyMapper;
-
-    @PostConstruct
-    private void configureMapper() {
-        propertyMapper = mapper.createTypeMap(Account.class, AccountResponse.class);
-        propertyMapper.addMappings(
-                mapper -> mapper.map(account -> account.getPlatform().getId(), AccountResponse::setPlatformId)
-        );
-        propertyMapper.addMappings(
-                mapper -> mapper.map(account -> account.getPlayer().getId(), AccountResponse::setPlayerId)
-        );
-    }
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private PlatformRepository platformRepository;
 
     public ResponseEntity<List<AccountResponse>> read() {
         List<AccountResponse> accounts = repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
@@ -63,7 +57,10 @@ public class AccountService {
             throw ElementAlreadyExistsException.createWith(playerId.toString() + "-" + platformId.toString(), "(player id, platform id)");
         }
 
-        repository.save(mapper.map(account, Account.class));
+        Account newAccount = mapper.map(account, Account.class);
+        newAccount.setPlayer(playerRepository.findById(account.getPlayerId()).get());
+        newAccount.setPlatform(platformRepository.findById(account.getPlatformId()).get());
+        repository.save(newAccount);
         return ResponseEntity.status(201).body("Account created.");
     }
 

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,44 +28,11 @@ public class PlayerService {
     @Autowired
     private PlayerRepository repository;
     @Autowired
-    private CareerRepository careerRepository;
-    @Autowired
     private UniversityRepository universityRepository;
     @Autowired
+    private CareerRepository careerRepository;
+    @Autowired
     private TeamRepository teamRepository;
-    TypeMap<PlayerSignUp, Player> typeMapRequest;
-    TypeMap<Player, PlayerResponse> typeMapResponse;
-
-    @PostConstruct
-    private void configureMapper() {
-//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
-        mapper.getConfiguration().setAmbiguityIgnored(true);
-        typeMapRequest = mapper.createTypeMap(PlayerSignUp.class, Player.class);
-        mapper.getConfiguration().setAmbiguityIgnored(false);
-
-        typeMapRequest.addMappings(mapper -> mapper.skip(Player::setId));
-        typeMapRequest.addMappings(
-                mapper -> mapper.map(player -> universityRepository.findById(player.getUniversityId()), Player::setUniversity)
-        );
-        typeMapRequest.addMappings(
-                mapper -> mapper.map(player -> careerRepository.findById(player.getCareerId()), Player::setCareer)
-        );
-        typeMapRequest.addMappings(
-                mapper -> mapper.map(player -> teamRepository.findById(player.getTeamId()), Player::setTeam)
-        );
-
-        typeMapResponse = mapper.createTypeMap(Player.class, PlayerResponse.class);
-        typeMapResponse.addMappings(
-                mapper -> mapper.map(player -> player.getUniversity().getId(), PlayerResponse::setUniversityId)
-        );
-        typeMapResponse.addMappings(
-                mapper -> mapper.map(player -> player.getCareer().getId(), PlayerResponse::setCareerId)
-        );
-        typeMapResponse.addMappings(
-                mapper -> mapper.map(player -> player.getTeam().getId(), PlayerResponse::setTeamId)
-        );
-    }
 
     public ResponseEntity<List<Player>> read () {
         List<Player> players = repository.findAll();
@@ -80,7 +48,13 @@ public class PlayerService {
         return new ResponseEntity<>(player.get(), HttpStatus.OK);
     }
     public ResponseEntity<String> create (PlayerSignUp player) {
-        repository.save(mapper.map(player, Player.class));
+        Player newPlayer = mapper.map(player, Player.class);
+        newPlayer.setUniversity(universityRepository.findById(player.getUniversityId()).get());
+        newPlayer.setCareer(careerRepository.findById(player.getCareerId()).get());
+        newPlayer.setTeam(teamRepository.findById(player.getTeamId()).get());
+        newPlayer.setPassword("hello world");
+        newPlayer.setRegistrationDate(LocalDate.now());
+        repository.save(newPlayer);
         return ResponseEntity.status(201).body("Player created.");
     }
 

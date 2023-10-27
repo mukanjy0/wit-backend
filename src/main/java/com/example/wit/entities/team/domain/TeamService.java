@@ -24,6 +24,7 @@ public class TeamService {
 
     public ResponseEntity<List<TeamResponse>> read () {
        List<TeamResponse> teams = repository.findAll().stream().map(team -> mapper.map(team, TeamResponse.class)).toList();
+       teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
        return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 

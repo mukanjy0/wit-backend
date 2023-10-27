@@ -31,12 +31,6 @@ public class AccountService {
     @Autowired
     private PlatformRepository platformRepository;
 
-//    @PostConstruct
-//    private void configureModelMapper() {
-//        mapper.getConfiguration().setAmbiguityIgnored(true);
-//        mapper.getConfiguration().setAmbiguityIgnored(false);
-//    }
-
     public ResponseEntity<List<AccountResponse>> read() {
         List<AccountResponse> accounts = repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
         return new ResponseEntity<>(accounts, HttpStatus.OK);
@@ -70,8 +64,7 @@ public class AccountService {
             throw ElementAlreadyExistsException.createWith(playerId.toString() + "-" + platformId.toString(), "(player id, platform id)");
         }
 
-        Account newAccount = mapper.map(account, Account.class);
-        repository.save(newAccount);
+        repository.save(mapper.map(account, Account.class));
         return ResponseEntity.status(201).body("Account created.");
     }
 

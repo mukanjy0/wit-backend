@@ -46,6 +46,40 @@ public class ConfigInstances {
 
         mapper.getConfiguration().setAmbiguityIgnored(true);
 
+        mapper.typeMap(PlayerSignUp.class, Player.class).addMappings(
+                mpr -> {
+                    mpr.skip(Player::setId);
+                    mpr.skip(Player::setPassword);
+                    mpr.skip(Player::setBestCategory);
+                    mpr.using(ctx -> Stream.of(Category.values())
+                                    .filter(cat -> cat.id().equals((Short) ctx.getSource()))
+                                    .findFirst()
+                                    .orElseThrow(IllegalArgumentException::new))
+                            .map(PlayerSignUp::getCurrentCategoryId, Player::setCurrentCategory);
+                    mpr.using(ctx -> Stream.of(Role.values())
+                                    .filter(r -> r.role().equals((String) ctx.getSource()))
+                                    .findFirst()
+                                    .orElseThrow(IllegalArgumentException::new))
+                            .map(PlayerSignUp::getRole, Player::setRole);
+                    mpr.using(ctx -> teamRepository.findById((Long) ctx.getSource()).get())
+                            .map(PlayerSignUp::getTeamId, Player::setTeam);
+                    mpr.using(ctx -> careerRepository.findById((Short) ctx.getSource()).get())
+                            .map(PlayerSignUp::getCareerId, Player::setCareer);
+                    mpr.using(ctx -> universityRepository.findById((Short) ctx.getSource()).get())
+                            .map(PlayerSignUp::getUniversityId, Player::setUniversity);
+                }
+        );
+
+        mapper.typeMap(Player.class, PlayerResponse.class).addMappings(
+                mpr -> {
+                    mpr.using(ctx -> ((Category) ctx.getSource()).id()).map(Player::getBestCategory, PlayerResponse::setBestCategoryId);
+                    mpr.using(ctx -> ((Category) ctx.getSource()).id()).map(Player::getCurrentCategory, PlayerResponse::setCurrentCategoryId);
+                    mpr.map(player -> player.getTeam().getId(), PlayerResponse::setTeamId);
+                    mpr.map(player -> player.getCareer().getId(), PlayerResponse::setCareerId);
+                    mpr.map(player -> player.getUniversity().getId(), PlayerResponse::setUniversityId);
+                }
+        );
+
         mapper.typeMap(AccountRequest.class, Account.class).addMappings(
                 mpr -> {
                     mpr.skip(Account::setId);

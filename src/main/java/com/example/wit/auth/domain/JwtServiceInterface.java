@@ -1,10 +1,6 @@
-package com.example.wit.auth;
+package com.example.wit.auth.domain;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 public interface JwtServiceInterface {
     String jwtSigningKey = "${my.secret}";

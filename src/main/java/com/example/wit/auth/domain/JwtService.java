@@ -1,4 +1,4 @@
-package com.example.wit.auth;
+package com.example.wit.auth.domain;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;

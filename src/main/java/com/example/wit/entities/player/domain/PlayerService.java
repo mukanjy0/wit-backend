@@ -43,13 +43,6 @@ public class PlayerService {
     @Autowired
     private UniversityRepository universityRepository;
 
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
@@ -74,38 +67,6 @@ public class PlayerService {
         }
 
         return mapper.map(player.get(), PlayerResponse.class);
-    }
-    public JwtAuthenticationResponse signUp (PlayerSignUp player) {
-        String username = player.getUsername();
-        if (repository.existsPlayerByUsername(username)) {
-            throw ElementAlreadyExistsException.createWith(username, "username");
-        }
-
-        Player newPlayer = mapper.map(player, Player.class);
-        newPlayer.setPassword(passwordEncoder.encode(player.getPassword()));
-        newPlayer.setBestCategory(newPlayer.getCurrentCategory());
-        newPlayer.setRegistrationDate(LocalDate.now());
-
-        repository.save(newPlayer);
-
-        String jwt = jwtService.generateToken(newPlayer);
-
-        return  new JwtAuthenticationResponse(jwt);
-    }
-
-    public JwtAuthenticationResponse signIn (PlayerSignIn player) {
-        String username = player.getUsername();
-        String password = player.getPassword();
-
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        Optional<Player> user = repository.findPlayerByUsername(username);
-        if (user.isEmpty()) {
-            throw ElementNotFoundException.createWith("Player", username);
-        }
-
-        String jwt = jwtService.generateToken(user.get());
-
-        return new JwtAuthenticationResponse(jwt);
     }
 
     public void update (Long id, PlayerUpdate player) {

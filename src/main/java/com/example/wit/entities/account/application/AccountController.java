@@ -3,6 +3,7 @@ package com.example.wit.entities.account.application;
 import com.example.wit.entities.account.domain.AccountService;
 import com.example.wit.entities.account.dto.AccountRequest;
 import com.example.wit.entities.account.dto.AccountResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class AccountController {
         return service.read(id);
     }
     @PostMapping
-    public ResponseEntity<String> create (@RequestBody AccountRequest account) {
+    public ResponseEntity<String> create (@Valid @RequestBody AccountRequest account) {
         return service.create(account);
     }
     @PutMapping("/{id}")

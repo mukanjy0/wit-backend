@@ -3,8 +3,11 @@ package com.example.wit.entities.account.domain;
 import com.example.wit.entities.account.dto.AccountRequest;
 import com.example.wit.entities.account.dto.AccountResponse;
 import com.example.wit.entities.account.utils.AccountUtils;
+import com.example.wit.entities.platform.domain.PlatformRepository;
+import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +26,10 @@ public class AccountService {
     private ModelMapper mapper;
     @Autowired
     private AccountRepository repository;
-    TypeMap<Account, AccountResponse> propertyMapper;
-    public AccountService() {
-        propertyMapper = mapper.createTypeMap(Account.class, AccountResponse.class);
-        propertyMapper.addMapping(Account::getPlatform, AccountResponse::setPlatformId);
-        propertyMapper.addMapping(Account::getPlayer, AccountResponse::setPlayerId);
-    }
-
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private PlatformRepository platformRepository;
 
     public ResponseEntity<List<AccountResponse>> read() {
         List<AccountResponse> accounts = repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
@@ -49,6 +49,13 @@ public class AccountService {
         String handle = account.getHandle();
         Short platformId = account.getPlatformId();
         Long playerId = account.getPlayerId();
+
+        if (platformRepository.findById(platformId).isEmpty()) {
+            throw ElementNotFoundException.createWith("Platform", platformId.toString());
+        }
+        if (playerRepository.findById(playerId).isEmpty()) {
+            throw ElementNotFoundException.createWith("Player", playerId.toString());
+        }
 
         if (repository.existsAccountByHandleAndPlatformId(handle, platformId)) {
             throw ElementAlreadyExistsException.createWith(handle + "-" + platformId.toString(), "(handle, platform id)");

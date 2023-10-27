@@ -31,6 +31,10 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 24, nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private String password;
     @Column(nullable = false)
     private Short currentCategory;
     @Column(nullable = false)
@@ -41,15 +45,13 @@ public class Player {
     University university;
     @ManyToOne
     Team team;
-    @Column(length = 24, nullable = false)
-    private String username;
     @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer points;
     @Column(columnDefinition = "INTEGER DEFAULT 0")
     private Integer rating;
     private LocalDate registrationDate;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
     @OneToMany(mappedBy = "player")
     Set<Account> accounts;
     @OneToMany(mappedBy = "player")

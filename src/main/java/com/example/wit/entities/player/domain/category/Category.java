@@ -1,4 +1,4 @@
-package com.example.wit.entities.player.domain;
+package com.example.wit.entities.player.domain.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -31,6 +31,12 @@ public class AccountService {
     @Autowired
     private PlatformRepository platformRepository;
 
+//    @PostConstruct
+//    private void configureModelMapper() {
+//        mapper.getConfiguration().setAmbiguityIgnored(true);
+//        mapper.getConfiguration().setAmbiguityIgnored(false);
+//    }
+
     public ResponseEntity<List<AccountResponse>> read() {
         List<AccountResponse> accounts = repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
         return new ResponseEntity<>(accounts, HttpStatus.OK);
@@ -50,6 +56,13 @@ public class AccountService {
         Short platformId = account.getPlatformId();
         Long playerId = account.getPlayerId();
 
+        if (platformRepository.findById(platformId).isEmpty()) {
+            throw ElementNotFoundException.createWith("Platform", platformId.toString());
+        }
+        if (playerRepository.findById(playerId).isEmpty()) {
+            throw ElementNotFoundException.createWith("Player", playerId.toString());
+        }
+
         if (repository.existsAccountByHandleAndPlatformId(handle, platformId)) {
             throw ElementAlreadyExistsException.createWith(handle + "-" + platformId.toString(), "(handle, platform id)");
         }
@@ -58,8 +71,6 @@ public class AccountService {
         }
 
         Account newAccount = mapper.map(account, Account.class);
-        newAccount.setPlayer(playerRepository.findById(account.getPlayerId()).get());
-        newAccount.setPlatform(platformRepository.findById(account.getPlatformId()).get());
         repository.save(newAccount);
         return ResponseEntity.status(201).body("Account created.");
     }

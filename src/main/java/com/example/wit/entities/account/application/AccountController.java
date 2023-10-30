@@ -29,7 +29,7 @@ public class AccountController {
         return service.create(account);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<String> update (@PathVariable Long id, AccountRequest account) {
+    public ResponseEntity<String> update (@PathVariable Long id, @RequestBody AccountRequest account) {
         return service.update(id, account);
     }
     @DeleteMapping("/{id}")

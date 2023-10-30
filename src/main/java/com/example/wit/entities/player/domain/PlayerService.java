@@ -75,21 +75,6 @@ public class PlayerService {
             throw ElementNotFoundException.createWith("Player", id.toString());
         }
 
-        Optional<Team> team = teamRepository.findById(player.getTeamId());
-        if (team.isEmpty()) {
-            throw ElementNotFoundException.createWith("Team", player.getTeamId().toString());
-        }
-
-        Optional<Career> career = careerRepository.findById(player.getCareerId());
-        if (career.isEmpty()) {
-            throw ElementNotFoundException.createWith("Career", player.getCareerId().toString());
-        }
-
-        Optional<University> university = universityRepository.findById(player.getUniversityId());
-        if (university.isEmpty()) {
-            throw ElementNotFoundException.createWith("University", player.getUniversityId().toString());
-        }
-
         Player previous = original.get();
         String username = previous.getUsername();
 
@@ -100,9 +85,32 @@ public class PlayerService {
             throw ElementAlreadyExistsException.createWith(newUsername, "username");
         }
 
-        updated.setTeam(team.get());
-        updated.setCareer(career.get());
-        updated.setUniversity(university.get());
+        var teamId = player.getTeamId();
+        if (teamId != null) {
+            Optional<Team> team = teamRepository.findById(teamId);
+            if (team.isEmpty()) {
+                throw ElementNotFoundException.createWith("Team", teamId.toString());
+            }
+            updated.setTeam(team.get());
+        }
+
+        var careerId = player.getCareerId();
+        if (careerId != null) {
+            Optional<Career> career = careerRepository.findById(careerId);
+            if (career.isEmpty()) {
+                throw ElementNotFoundException.createWith("Career", careerId.toString());
+            }
+            updated.setCareer(career.get());
+        }
+
+        var universityId = player.getUniversityId();
+        if (universityId != null) {
+            Optional<University> university = universityRepository.findById(universityId);
+            if (university.isEmpty()) {
+                throw ElementNotFoundException.createWith("University", universityId.toString());
+            }
+            updated.setUniversity(university.get());
+        }
 
         repository.save(updated);
     }

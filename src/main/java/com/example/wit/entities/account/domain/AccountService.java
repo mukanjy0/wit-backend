@@ -84,13 +84,15 @@ public class AccountService {
         Short newPlatformId = updated.getPlatform().getId();
         Long newPlayerId = updated.getPlayer().getId();
 
-        if (!(handle+platformId.toString()).equals(newHandle+newPlatformId.toString())
+        if (handle != null && platformId != null
+            && !(handle+platformId.toString()).equals(newHandle+newPlatformId.toString())
             && repository.existsAccountByHandleAndPlatformId(newHandle, newPlatformId)) {
             throw ElementAlreadyExistsException.createWith(newHandle + "-" + newPlatformId, "(handle, platform id)");
         }
 
-        if (!(playerId+platformId.toString()).equals(newPlayerId+newPlatformId.toString())
-                && repository.existsAccountByPlayerIdAndPlatformId(newPlayerId, newPlatformId)) {
+        if (playerId != null && platformId != null
+            && !(playerId+platformId.toString()).equals(newPlayerId+newPlatformId.toString())
+            && repository.existsAccountByPlayerIdAndPlatformId(newPlayerId, newPlatformId)) {
             throw ElementAlreadyExistsException.createWith(newPlayerId + "-" + newPlatformId, "(player id, platform id)");
         }
 

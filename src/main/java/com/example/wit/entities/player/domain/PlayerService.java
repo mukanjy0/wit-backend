@@ -1,13 +1,9 @@
 package com.example.wit.entities.player.domain;
 
-import com.example.wit.auth.domain.JwtService;
-import com.example.wit.auth.dto.JwtAuthenticationResponse;
 import com.example.wit.entities.career.domain.Career;
 import com.example.wit.entities.career.domain.CareerRepository;
 import com.example.wit.entities.player.dto.PlayerResponse;
-import com.example.wit.entities.player.dto.PlayerSignIn;
-import com.example.wit.entities.player.dto.PlayerSignUp;
-import com.example.wit.entities.player.dto.PlayerUpdate;
+import com.example.wit.entities.player.dto.PlayerRequest;
 import com.example.wit.entities.team.domain.Team;
 import com.example.wit.entities.team.domain.TeamRepository;
 import com.example.wit.entities.university.domain.University;
@@ -15,14 +11,13 @@ import com.example.wit.entities.university.domain.UniversityRepository;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import com.example.wit.entities.player.utils.PlayerUtils;
+import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PlayerService {
+public class PlayerService implements CrudService<PlayerRequest, PlayerResponse, Long> {
     @Autowired
     private ModelMapper mapper;
     @Autowired
@@ -60,7 +55,7 @@ public class PlayerService {
         return repository.findAll().stream().map(player -> mapper.map(player, PlayerResponse.class)).toList();
     }
 
-    public PlayerResponse read (Long id) throws ElementNotFoundException {
+    public PlayerResponse read (Long id) {
         Optional<Player>  player = repository.findById(id);
         if (player.isEmpty()) {
             throw ElementNotFoundException.createWith("Player", id.toString());
@@ -69,7 +64,7 @@ public class PlayerService {
         return mapper.map(player.get(), PlayerResponse.class);
     }
 
-    public void update (Long id, PlayerUpdate player) {
+    public void update (Long id, PlayerRequest player) {
         Optional<Player> original = repository.findById(id);
         if (original.isEmpty()) {
             throw ElementNotFoundException.createWith("Player", id.toString());
@@ -113,6 +108,21 @@ public class PlayerService {
         }
 
         repository.save(updated);
+    }
+
+    public void create (PlayerRequest player) {
+        String username = player.getUsername();
+        if (repository.existsPlayerByUsername(username)) {
+            throw ElementAlreadyExistsException.createWith(username, "username");
+        }
+
+        Player newPlayer = mapper.map(player, Player.class);
+        var passwordEncoder = new BCryptPasswordEncoder();
+        newPlayer.setPassword(passwordEncoder.encode(player.getPassword()));
+        newPlayer.setBestCategory(newPlayer.getCurrentCategory());
+        newPlayer.setRegistrationDate(LocalDate.now());
+
+        repository.save(newPlayer);
     }
 
     public void delete (Long id) {

@@ -5,41 +5,38 @@ import com.example.wit.entities.career.dto.CareerResponse;
 import com.example.wit.entities.career.utils.CareerUtils;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
+import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-public class CareerService {
+public class CareerService implements CrudService<CareerRequest, CareerResponse, Short> {
     @Autowired
     private ModelMapper mapper;
     @Autowired
     private CareerRepository repository;
 
-    public ResponseEntity<List<CareerResponse>> read () {
-        List<CareerResponse> careers = repository
+    public List<CareerResponse> read () {
+        return repository
                 .findAll()
                 .stream()
                 .map(career -> mapper.map(career, CareerResponse.class))
                 .toList();
-        return new ResponseEntity<>(careers, HttpStatus.OK);
     }
 
-    public ResponseEntity<CareerResponse> read (Short id) {
+    public CareerResponse read (Short id) {
         Optional<Career> career = repository.findById(id);
         if (career.isEmpty()) {
             throw ElementNotFoundException.createWith("Career", id.toString());
         }
-        return new ResponseEntity<>(mapper.map(career.get(), CareerResponse.class), HttpStatus.OK);
+        return mapper.map(career.get(), CareerResponse.class);
     }
 
-    public ResponseEntity<String> create (CareerRequest career) {
+    public void create (CareerRequest career) {
         String name = career.getName();
 
         Optional<Career> original = repository.findCareerByName(name);
@@ -47,10 +44,9 @@ public class CareerService {
             throw ElementAlreadyExistsException.createWith(name, "name");
         }
         repository.save(mapper.map(career, Career.class));
-        return ResponseEntity.status(201).body("Career created.");
     }
 
-    public ResponseEntity<String> update (Short id, CareerRequest career) {
+    public void update (Short id, CareerRequest career) {
         Optional<Career> original = repository.findById(id);
         if (original.isEmpty()) {
             throw ElementNotFoundException.createWith("Career", id.toString());
@@ -65,15 +61,13 @@ public class CareerService {
             throw ElementAlreadyExistsException.createWith(newName, "name");
         }
         repository.save(updated);
-        return ResponseEntity.status(200).body("Career updated.");
     }
 
-    public ResponseEntity<String> delete(Short id) {
+    public void delete(Short id) {
         Optional<Career> career = repository.findById(id);
         if (career.isEmpty()) {
             throw ElementNotFoundException.createWith("Career", id.toString());
         }
         repository.deleteById(id);
-        return ResponseEntity.status(200).body("Career deleted.");
     }
 }

@@ -5,30 +5,28 @@ import com.example.wit.entities.team.dto.TeamResponse;
 import com.example.wit.entities.team.utils.TeamUtils;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
-import lombok.extern.java.Log;
+import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TeamService {
+public class TeamService implements CrudService<TeamRequest, TeamResponse, Long> {
     @Autowired
     private ModelMapper mapper;
     @Autowired
     private TeamRepository repository;
 
-    public ResponseEntity<List<TeamResponse>> read () {
+    public List<TeamResponse> read () {
        List<TeamResponse> teams = repository.findAll().stream().map(team -> mapper.map(team, TeamResponse.class)).toList();
        teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
-       return new ResponseEntity<>(teams, HttpStatus.OK);
+       return teams;
     }
 
-    public ResponseEntity<TeamResponse> read (Long id) {
+    public TeamResponse read (Long id) {
         Optional<Team> team = repository.findById(id);
         if (team.isEmpty()) {
             throw ElementNotFoundException.createWith("Team", id.toString());
@@ -36,11 +34,10 @@ public class TeamService {
 
         TeamResponse response = mapper.map(team.get(), TeamResponse.class);
         response.setRank(repository.getTeamRank(id));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return response;
     }
 
-    public ResponseEntity<String> create (TeamRequest team) {
+    public void create (TeamRequest team) {
         String name = team.getName();
         Optional<Team> original = repository.findTeamByName(name);
 
@@ -49,10 +46,9 @@ public class TeamService {
         }
 
         repository.save(mapper.map(team, Team.class));
-        return ResponseEntity.status(201).body("Team created.");
     }
 
-    public ResponseEntity<String> update (Long id, TeamRequest team) {
+    public void update (Long id, TeamRequest team) {
         Optional<Team> original = repository.findById(id);
         if (original.isEmpty()) {
             throw ElementNotFoundException.createWith("Team", id.toString());
@@ -69,16 +65,14 @@ public class TeamService {
         }
 
         repository.save(updated);
-        return ResponseEntity.status(200).body("Team updated.");
     }
 
-    public ResponseEntity<String> delete (Long id) {
+    public void delete (Long id) {
         Optional<Team> team = repository.findById(id);
         if (team.isEmpty()) {
             throw ElementNotFoundException.createWith("Team", id.toString());
         }
 
         repository.deleteById(id);
-        return ResponseEntity.status(200).body("Team deleted.");
     }
 }

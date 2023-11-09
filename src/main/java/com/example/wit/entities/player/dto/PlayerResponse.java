@@ -1,8 +1,5 @@
 package com.example.wit.entities.player.dto;
 
-import com.example.wit.entities.player.domain.role.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.time.LocalDate;

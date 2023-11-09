@@ -1,7 +1,7 @@
 package com.example.wit.config;
 
 import com.example.wit.auth.domain.JwtService;
-import com.example.wit.entities.player.domain.PlayerService;
+import com.example.wit.entities.player.domain.UserPlayerService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private PlayerService userService;
+    private UserPlayerService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

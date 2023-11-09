@@ -2,7 +2,6 @@ package com.example.wit.auth.application;
 
 import com.example.wit.auth.domain.AuthService;
 import com.example.wit.auth.dto.JwtAuthenticationResponse;
-import com.example.wit.entities.player.domain.PlayerService;
 import com.example.wit.entities.player.dto.PlayerSignIn;
 import com.example.wit.entities.player.dto.PlayerSignUp;
 import jakarta.validation.Valid;

@@ -7,8 +7,6 @@ import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,33 +19,31 @@ public class PlatformService {
     @Autowired
     private PlatformRepository repository;
 
-    public ResponseEntity<List<PlatformResponse>> read () {
-        List<PlatformResponse> platforms = repository.findAll().stream().map(platform -> mapper.map(platform, PlatformResponse.class)).toList();
-        return new ResponseEntity<>(platforms, HttpStatus.OK);
+    public List<PlatformResponse> read () {
+        return repository.findAll().stream().map(platform -> mapper.map(platform, PlatformResponse.class)).toList();
     }
 
-    public ResponseEntity<PlatformResponse> read (Short id) {
+    public PlatformResponse read (Short id) {
         Optional<Platform> platform = repository.findById(id);
 
         if (platform.isEmpty()) {
             throw ElementNotFoundException.createWith("Platform", id.toString());
         }
 
-        return new ResponseEntity<>(mapper.map(platform.get(), PlatformResponse.class), HttpStatus.OK);
+        return mapper.map(platform.get(), PlatformResponse.class);
     }
 
-    public ResponseEntity<String> create (PlatformRequest platform) {
+    public void create (PlatformRequest platform) {
         String name = platform.getName();
         Optional<Platform> original = repository.findPlatformByName(name);
+
         if (original.isPresent()) {
             throw ElementAlreadyExistsException.createWith(name, "name");
         }
-
         repository.save(mapper.map(platform, Platform.class));
-        return ResponseEntity.status(201).body("Platform created.");
     }
 
-    public ResponseEntity<String> update (Short id, PlatformRequest platform) {
+    public void update (Short id, PlatformRequest platform) {
         Optional<Platform> original = repository.findById(id);
         if (original.isEmpty()) {
             throw ElementNotFoundException.createWith("Platform", id.toString());
@@ -70,16 +66,14 @@ public class PlatformService {
         }
 
         repository.save(updated);
-        return ResponseEntity.status(200).body("Platform updated.");
     }
 
-    public ResponseEntity<String> delete (Short id) {
+    public void delete (Short id) {
         Optional<Platform> platform = repository.findById(id);
         if (platform.isEmpty()) {
             throw ElementNotFoundException.createWith("Platform", id.toString());
         }
 
         repository.deleteById(id);
-        return ResponseEntity.status(200).body("Platform deleted.");
     }
 }

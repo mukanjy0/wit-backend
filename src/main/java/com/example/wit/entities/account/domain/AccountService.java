@@ -9,18 +9,12 @@ import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
-import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 @Service
 public class AccountService {
@@ -33,21 +27,19 @@ public class AccountService {
     @Autowired
     private PlatformRepository platformRepository;
 
-    public ResponseEntity<List<AccountResponse>> read() {
-        List<AccountResponse> accounts = repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
-        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    public List<AccountResponse> read() {
+        return repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
     }
 
-    public ResponseEntity<AccountResponse> read (Long id) {
+    public AccountResponse read (Long id) {
         Optional<Account> account = repository.findById(id);
         if (account.isEmpty()) {
             throw ElementNotFoundException.createWith("Account", id.toString());
         }
-
-        return new ResponseEntity<>(mapper.map(account.get(), AccountResponse.class), HttpStatus.OK);
+        return mapper.map(account.get(), AccountResponse.class);
     }
 
-    public ResponseEntity<String> create (AccountRequest account) {
+    public void create (AccountRequest account) {
         String handle = account.getHandle();
         Short platformId = account.getPlatformId();
         Long playerId = account.getPlayerId();
@@ -67,10 +59,9 @@ public class AccountService {
         }
 
         repository.save(mapper.map(account, Account.class));
-        return ResponseEntity.status(201).body("Account created.");
     }
 
-    public ResponseEntity<String> update (Long id, AccountRequest account) {
+    public void update (Long id, AccountRequest account) {
         Optional<Account> original = repository.findById(id);
         if (original.isEmpty()) {
             throw ElementNotFoundException.createWith("Account", id.toString());
@@ -116,16 +107,14 @@ public class AccountService {
         }
 
         repository.save(updated);
-        return ResponseEntity.status(200).body("Account updated.");
     }
 
-    public ResponseEntity<String> delete (Long id) {
+    public void delete (Long id) {
         Optional<Account> account = repository.findById(id);
         if (account.isEmpty()) {
             throw ElementNotFoundException.createWith("Account", id.toString());
         }
 
         repository.deleteById(id);
-        return ResponseEntity.status(200).body("Account deleted.");
     }
 }

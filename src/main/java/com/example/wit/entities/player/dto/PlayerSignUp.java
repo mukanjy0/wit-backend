@@ -11,9 +11,12 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class PlayerSignUp {
-    @Size(max = 24)
     @NotBlank
+    @Size(max = 24)
     private String username;
+    @NotBlank
+    @Size(max = 255)
+    private String email;
     @NotBlank
     private String password;
     private Integer points;

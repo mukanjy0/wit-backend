@@ -5,7 +5,6 @@ import com.example.wit.entities.team.dto.TeamResponse;
 import com.example.wit.entities.team.utils.TeamUtils;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
-import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TeamService implements CrudService<TeamRequest, TeamResponse, Long> {
+public class TeamService {
     @Autowired
     private ModelMapper mapper;
     @Autowired

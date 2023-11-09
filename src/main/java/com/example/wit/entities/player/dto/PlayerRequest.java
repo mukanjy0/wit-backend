@@ -8,6 +8,7 @@ import lombok.*;
 @Data
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class PlayerRequest {
     @Size(max = 24)
     @NotBlank

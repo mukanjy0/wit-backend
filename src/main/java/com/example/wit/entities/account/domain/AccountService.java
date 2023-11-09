@@ -9,7 +9,6 @@ import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
-import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService implements CrudService<AccountRequest, AccountResponse, Long> {
+public class AccountService {
     @Autowired
     private ModelMapper mapper;
     @Autowired

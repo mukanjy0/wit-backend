@@ -5,11 +5,8 @@ import com.example.wit.exceptions.ElementNotFoundException;
 import com.example.wit.entities.university.dto.UniversityRequest;
 import com.example.wit.entities.university.dto.UniversityResponse;
 import com.example.wit.entities.university.utils.UniversityUtils;
-import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UniversityService implements CrudService<UniversityRequest, UniversityResponse, Short> {
+public class UniversityService {
     @Autowired
     private UniversityRepository repository;
     @Autowired

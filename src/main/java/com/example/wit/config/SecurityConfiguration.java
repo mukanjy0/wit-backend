@@ -1,6 +1,6 @@
 package com.example.wit.config;
 
-import com.example.wit.entities.player.domain.PlayerService;
+import com.example.wit.entities.player.domain.UserPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
     @Autowired
-    private PlayerService userService;
+    private UserPlayerService userService;
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Bean

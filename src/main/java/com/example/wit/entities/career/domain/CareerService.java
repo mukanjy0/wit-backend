@@ -5,7 +5,6 @@ import com.example.wit.entities.career.dto.CareerResponse;
 import com.example.wit.entities.career.utils.CareerUtils;
 import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
-import com.example.wit.templates.CrudService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CareerService implements CrudService<CareerRequest, CareerResponse, Short> {
+public class CareerService {
     @Autowired
     private ModelMapper mapper;
     @Autowired

@@ -1,6 +1,6 @@
 package com.example.wit.entities.player.application;
 
-import com.example.wit.entities.player.domain.PlayerService;
+import com.example.wit.entities.player.domain.UserPlayerService;
 import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerRequest;
 import com.example.wit.templates.CrudController;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/player")
 public class PlayerController implements CrudController<PlayerRequest, PlayerResponse, Long> {
     @Autowired
-    private PlayerService service;
+    private UserPlayerService service;
 
     @GetMapping
     public ResponseEntity<List<PlayerResponse>> read () {

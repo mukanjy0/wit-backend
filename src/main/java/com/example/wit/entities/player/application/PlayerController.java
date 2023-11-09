@@ -3,7 +3,6 @@ package com.example.wit.entities.player.application;
 import com.example.wit.entities.player.domain.UserPlayerService;
 import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerRequest;
-import com.example.wit.templates.CrudController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/player")
-public class PlayerController implements CrudController<PlayerRequest, PlayerResponse, Long> {
+public class PlayerController {
     @Autowired
     private UserPlayerService service;
 

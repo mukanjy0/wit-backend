@@ -3,7 +3,6 @@ package com.example.wit.entities.team.application;
 import com.example.wit.entities.team.domain.TeamService;
 import com.example.wit.entities.team.dto.TeamRequest;
 import com.example.wit.entities.team.dto.TeamResponse;
-import com.example.wit.templates.CrudController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/team")
-public class TeamController implements CrudController<TeamRequest, TeamResponse, Long> {
+public class TeamController {
     @Autowired
     private TeamService service;
 

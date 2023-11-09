@@ -3,7 +3,6 @@ package com.example.wit.entities.account.application;
 import com.example.wit.entities.account.domain.AccountService;
 import com.example.wit.entities.account.dto.AccountRequest;
 import com.example.wit.entities.account.dto.AccountResponse;
-import com.example.wit.templates.CrudController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/account")
-public class AccountController implements CrudController<AccountRequest, AccountResponse, Long> {
+public class AccountController {
     @Autowired
     private AccountService service;
 

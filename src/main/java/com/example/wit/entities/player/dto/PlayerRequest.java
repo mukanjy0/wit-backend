@@ -11,20 +11,16 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 public class PlayerRequest {
     @Size(max = 24)
-    @NotBlank
     private String username;
-    @NotBlank
+    @Size(max = 255)
+    private String email;
     private String password;
     private Integer points;
-    @NotNull
     private Integer rating;
     private Short currentCategoryId;
     private String avatarUrl;
     private String role;
-    @NotNull
     private Long teamId;
-    @NotNull
     private Short careerId;
-    @NotNull
     private Short universityId;
 }

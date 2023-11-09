@@ -34,6 +34,8 @@ public class Player implements UserDetails {
     private Long id;
     @Column(length = 24, unique = true, nullable = false)
     private String username;
+    @Column(unique = true, nullable = false)
+    private String email;
     @Column(nullable = false)
     private String password;
     private Integer points;

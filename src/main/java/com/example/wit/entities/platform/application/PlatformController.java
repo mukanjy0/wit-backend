@@ -3,7 +3,6 @@ package com.example.wit.entities.platform.application;
 import com.example.wit.entities.platform.domain.PlatformService;
 import com.example.wit.entities.platform.dto.PlatformRequest;
 import com.example.wit.entities.platform.dto.PlatformResponse;
-import com.example.wit.templates.CrudController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/platform")
-public class PlatformController implements CrudController<PlatformRequest, PlatformResponse, Short> {
+public class PlatformController {
     @Autowired
     private PlatformService service;
 

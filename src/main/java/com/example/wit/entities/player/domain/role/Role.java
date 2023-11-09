@@ -8,8 +8,8 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @Getter @NoArgsConstructor @AllArgsConstructor
 public enum Role {
-    USER("user"),
-    ADMIN("admin");
+    USER("USER"),
+    ADMIN("ADMIN");
 
     private String role;
 }

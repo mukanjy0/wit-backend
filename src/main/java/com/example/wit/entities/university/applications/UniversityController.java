@@ -1,10 +1,8 @@
 package com.example.wit.entities.university.applications;
 
-import com.example.wit.entities.university.domain.UniversityRepository;
 import com.example.wit.entities.university.domain.UniversityService;
 import com.example.wit.entities.university.dto.UniversityRequest;
 import com.example.wit.entities.university.dto.UniversityResponse;
-import com.example.wit.templates.CrudController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/university")
-public class UniversityController implements CrudController<UniversityRequest, UniversityResponse, Short> {
+public class UniversityController {
     @Autowired
     private UniversityService service;
 

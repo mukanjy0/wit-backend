@@ -17,9 +17,16 @@ public class PlatformController {
     @Autowired
     private PlatformService service;
 
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<List<PlatformResponse>> read (
+            @RequestParam Integer page,
+            @RequestParam Integer size
+    ) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
+    }
     @GetMapping
-    public ResponseEntity<List<PlatformResponse>> read () {
-        return new ResponseEntity<>(service.read(), HttpStatus.OK);
+    public ResponseEntity<List<PlatformResponse>> readAll () {
+        return new ResponseEntity<>(service.readAll(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PlatformResponse> read (@PathVariable Short id) {

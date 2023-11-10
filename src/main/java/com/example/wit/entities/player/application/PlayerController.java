@@ -18,8 +18,8 @@ public class PlayerController {
     private UserPlayerService service;
 
     @GetMapping
-    public ResponseEntity<List<PlayerResponse>> read () {
-        return new ResponseEntity<>(service.read(), HttpStatus.OK);
+    public ResponseEntity<List<PlayerResponse>> read (@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

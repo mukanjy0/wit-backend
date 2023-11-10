@@ -13,6 +13,8 @@ import com.example.wit.exceptions.ElementNotFoundException;
 import com.example.wit.entities.player.utils.PlayerUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -49,8 +51,9 @@ public class UserPlayerService implements PlayerService {
         };
     }
 
-    public List<PlayerResponse> read () {
-        return repository.findAll().stream().map(player -> mapper.map(player, PlayerResponse.class)).toList();
+    public List<PlayerResponse> read (Integer pageNumber, Integer pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return repository.findAll(page).stream().map(player -> mapper.map(player, PlayerResponse.class)).toList();
     }
 
     public PlayerResponse read (Long id) {

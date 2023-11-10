@@ -7,6 +7,7 @@ import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,15 @@ public class CareerService {
     @Autowired
     private CareerRepository repository;
 
-    public List<CareerResponse> read () {
+    public List<CareerResponse> read (Integer pageNumber, Integer pageSize) {
+        return repository
+                .findAll(PageRequest.of(pageNumber, pageSize))
+                .stream()
+                .map(career -> mapper.map(career, CareerResponse.class))
+                .toList();
+    }
+
+    public List<CareerResponse> readAll () {
         return repository
                 .findAll()
                 .stream()

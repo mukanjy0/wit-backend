@@ -7,7 +7,9 @@ import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +21,14 @@ public class PlatformService {
     @Autowired
     private PlatformRepository repository;
 
-    public List<PlatformResponse> read () {
+    public List<PlatformResponse> read (Integer page, Integer size) {
+        return repository.findAll(PageRequest.of(page, size))
+                .stream()
+                .map(platform -> mapper.map(platform, PlatformResponse.class))
+                .toList();
+    }
+
+    public List<PlatformResponse> readAll () {
         return repository.findAll().stream().map(platform -> mapper.map(platform, PlatformResponse.class)).toList();
     }
 

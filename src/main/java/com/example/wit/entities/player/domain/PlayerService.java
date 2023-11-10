@@ -6,7 +6,7 @@ import com.example.wit.entities.player.dto.PlayerResponse;
 import java.util.List;
 
 public interface PlayerService {
-    public List<PlayerResponse> read ();
+    public List<PlayerResponse> read (Integer pageNumber, Integer pageSize);
 
     public PlayerResponse read (Long id);
 

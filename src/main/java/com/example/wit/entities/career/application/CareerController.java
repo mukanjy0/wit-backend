@@ -17,9 +17,17 @@ public class CareerController {
     @Autowired
     private CareerService service;
 
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<List<CareerResponse>> read (
+            @RequestParam Integer page,
+            @RequestParam Integer size
+    ) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
+    }
+
     @GetMapping
-    public ResponseEntity<List<CareerResponse>> read () {
-        return new ResponseEntity<>(service.read(), HttpStatus.OK);
+    public ResponseEntity<List<CareerResponse>> readAll () {
+        return new ResponseEntity<>(service.readAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -22,9 +22,11 @@ public class TeamService {
     @Autowired
     private TeamRepository repository;
 
-    public List<TeamResponse> read (Integer pageNumber, Integer pageSize) {
-        Pageable page = PageRequest.of(pageNumber, pageSize);
-        List<TeamResponse> teams = repository.findAll(page).stream().map(team -> mapper.map(team, TeamResponse.class)).toList();
+    public List<TeamResponse> read (Integer page, Integer size) {
+        List<TeamResponse> teams = repository.findAll(PageRequest.of(page, size))
+                .stream()
+                .map(team -> mapper.map(team, TeamResponse.class))
+                .toList();
         teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
         return teams;
     }

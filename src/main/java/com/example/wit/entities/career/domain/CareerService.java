@@ -20,9 +20,9 @@ public class CareerService {
     @Autowired
     private CareerRepository repository;
 
-    public List<CareerResponse> read (Integer pageNumber, Integer pageSize) {
+    public List<CareerResponse> read (Integer page, Integer size) {
         return repository
-                .findAll(PageRequest.of(pageNumber, pageSize))
+                .findAll(PageRequest.of(page, size))
                 .stream()
                 .map(career -> mapper.map(career, CareerResponse.class))
                 .toList();

@@ -8,6 +8,8 @@ import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,13 @@ public class TeamService {
     @Autowired
     private TeamRepository repository;
 
-    public List<TeamResponse> read () {
+    public List<TeamResponse> read (Integer pageNumber, Integer pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        List<TeamResponse> teams = repository.findAll(page).stream().map(team -> mapper.map(team, TeamResponse.class)).toList();
+        teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
+        return teams;
+    }
+    public List<TeamResponse> readAll () {
        List<TeamResponse> teams = repository.findAll().stream().map(team -> mapper.map(team, TeamResponse.class)).toList();
        teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
        return teams;

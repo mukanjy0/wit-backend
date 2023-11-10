@@ -1,8 +1,9 @@
-package com.example.wit.entities.problem.application;
+package com.example.wit.entities.contest.application;
 
 import com.example.wit.entities.contest.domain.ContestService;
 import com.example.wit.entities.contest.dto.ContestRequest;
 import com.example.wit.entities.contest.dto.ContestResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ContestController {
     }
 
     @PostMapping
-    public ResponseEntity<String> create (@RequestBody ContestRequest contest) {
+    public ResponseEntity<String> create (@Valid @RequestBody ContestRequest contest) {
         service.create(contest);
         return ResponseEntity.status(201).body("Contest created.");
     }

@@ -8,7 +8,7 @@ import java.util.Set;
 @Data
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class ProblemReponse {
+public class ProblemResponse {
     private Long id;
     private String statement;
     private Integer memoryLimit;

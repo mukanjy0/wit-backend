@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Submission {
     @Id
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "player_id", referencedColumnName = "id")
-    Player player;
-    @Id
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "problem_id", referencedColumnName = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(optional = false)
     Problem problem;
-    @Id
+    @ManyToOne(optional = false)
+    Player player;
+    @Column(nullable = false)
     private LocalDateTime dateTime;
     private String result;
+    @Column(nullable = false)
     private Boolean inPractice;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String code;

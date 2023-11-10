@@ -1,6 +1,7 @@
 package com.example.wit.entities.contest.domain;
 
 import com.example.wit.entities.challenge.domain.bet.Bet;
+import com.example.wit.entities.contest.domain.division.Division;
 import com.example.wit.entities.problem.domain.Problem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,14 +20,17 @@ public class Contest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Character division;
+    Division division;
     @Column(nullable = false)
-    private LocalDateTime start_datetime;
+    private LocalDateTime startDatetime;
     @Column(nullable = false)
-    private LocalDateTime end_datetime;
-    private Integer durationSeconds;
+    private LocalDateTime endDatetime;
+    private Integer durationMilliseconds;
     private String editorialUrl;
     @ManyToMany
+    @JoinTable(name = "contest_problem",
+            joinColumns = @JoinColumn(name = "contest_id"),
+            inverseJoinColumns = @JoinColumn(name = "problem_id"))
     Set<Problem> problems;
     @OneToMany(mappedBy = "contest")
     Set<Bet> bets;

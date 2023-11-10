@@ -16,9 +16,16 @@ public class UniversityController {
     @Autowired
     private UniversityService service;
 
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<List<UniversityResponse>> read (
+            @RequestParam Integer page,
+            @RequestParam Integer size
+    ) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
+    }
     @GetMapping
-    public ResponseEntity<List<UniversityResponse>> read () {
-        return new ResponseEntity<>(service.read(), HttpStatus.OK);
+    public ResponseEntity<List<UniversityResponse>> readAll () {
+        return new ResponseEntity<>(service.readAll(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<UniversityResponse> read (@PathVariable Short id) {

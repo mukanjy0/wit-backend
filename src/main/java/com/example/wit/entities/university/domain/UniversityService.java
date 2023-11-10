@@ -7,6 +7,7 @@ import com.example.wit.entities.university.dto.UniversityResponse;
 import com.example.wit.entities.university.utils.UniversityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,15 @@ public class UniversityService {
     @Autowired
     private ModelMapper mapper;
 
-    public List<UniversityResponse> read() {
+    public List<UniversityResponse> read(Integer page, Integer size) {
+        return repository
+                .findAll(PageRequest.of(page, size))
+                .stream().map(university -> mapper.map(university, UniversityResponse.class))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<UniversityResponse> readAll() {
         return repository
                 .findAll()
                 .stream().map(university -> mapper.map(university, UniversityResponse.class))

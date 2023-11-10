@@ -1,5 +1,6 @@
 package com.example.wit.entities.team.domain;
 
+import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.team.dto.TeamRequest;
 import com.example.wit.entities.team.dto.TeamResponse;
 import com.example.wit.entities.team.utils.TeamUtils;
@@ -34,6 +35,17 @@ public class TeamService {
         TeamResponse response = mapper.map(team.get(), TeamResponse.class);
         response.setRank(repository.getTeamRank(id));
         return response;
+    }
+
+    public List<PlayerResponse> readMembers (Long id) {
+        Optional<Team> team = repository.findById(id);
+        if (team.isEmpty()) {
+            throw ElementNotFoundException.createWith("Team", id.toString());
+        }
+        return team.get().getPlayers()
+                .stream()
+                .map(player -> mapper.map(player, PlayerResponse.class))
+                .toList();
     }
 
     public void create (TeamRequest team) {

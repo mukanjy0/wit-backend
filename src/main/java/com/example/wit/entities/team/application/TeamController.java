@@ -1,5 +1,6 @@
 package com.example.wit.entities.team.application;
 
+import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.team.domain.TeamService;
 import com.example.wit.entities.team.dto.TeamRequest;
 import com.example.wit.entities.team.dto.TeamResponse;
@@ -24,6 +25,10 @@ public class TeamController {
     @GetMapping("/{id}")
     public ResponseEntity<TeamResponse> read (@PathVariable Long id) {
         return new ResponseEntity<>(service.read(id), HttpStatus.OK);
+    }
+    @GetMapping("/{id}/members")
+    public ResponseEntity<List<PlayerResponse>> readMembers (@PathVariable Long id) {
+        return new ResponseEntity<>(service.readMembers(id), HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<String> create (@Valid @RequestBody TeamRequest team) {

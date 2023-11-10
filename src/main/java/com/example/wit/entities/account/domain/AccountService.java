@@ -11,6 +11,7 @@ import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,14 @@ public class AccountService {
     @Autowired
     private PlatformRepository platformRepository;
 
-    public List<AccountResponse> read() {
+    public List<AccountResponse> read(Integer page, Integer size) {
+        return repository.findAll(PageRequest.of(page, size))
+                .stream()
+                .map(account -> mapper.map(account, AccountResponse.class))
+                .toList();
+    }
+
+    public List<AccountResponse> readAll() {
         return repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
     }
 

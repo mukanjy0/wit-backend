@@ -35,10 +35,6 @@ public class AccountService {
                 .toList();
     }
 
-    public List<AccountResponse> readAll() {
-        return repository.findAll().stream().map(account -> mapper.map(account, AccountResponse.class)).toList();
-    }
-
     public AccountResponse read (Long id) {
         Optional<Account> account = repository.findById(id);
         if (account.isEmpty()) {

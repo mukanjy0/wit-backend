@@ -18,15 +18,11 @@ public class TeamController {
     @Autowired
     private TeamService service;
 
-    @GetMapping(params = {"page", "size"})
-    public ResponseEntity<List<TeamResponse>> read (
-            @RequestParam Integer page,
-            @RequestParam Integer size) {
-        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
-    }
     @GetMapping
-    public ResponseEntity<List<TeamResponse>> readAll () {
-        return new ResponseEntity<>(service.readAll(), HttpStatus.OK);
+    public ResponseEntity<List<TeamResponse>> read (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<TeamResponse> read (@PathVariable Long id) {

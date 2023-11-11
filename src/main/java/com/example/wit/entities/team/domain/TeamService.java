@@ -30,11 +30,6 @@ public class TeamService {
         teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
         return teams;
     }
-    public List<TeamResponse> readAll () {
-       List<TeamResponse> teams = repository.findAll().stream().map(team -> mapper.map(team, TeamResponse.class)).toList();
-       teams.forEach(team -> team.setRank(repository.getTeamRank(team.getId())));
-       return teams;
-    }
 
     public TeamResponse read (Long id) {
         Optional<Team> team = repository.findById(id);

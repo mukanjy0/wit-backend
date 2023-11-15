@@ -4,6 +4,7 @@ import com.example.wit.entities.player.domain.UserPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -31,7 +32,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher("/auth/**")).permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher("/auth/**"),
+                        antMatcher(HttpMethod.GET, "/career/**"),
+                        antMatcher(HttpMethod.GET, "/university/**"),
+                        antMatcher(HttpMethod.GET, "/team/**")
+                        )
+                        .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

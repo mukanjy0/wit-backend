@@ -17,17 +17,12 @@ public class AccountController {
     @Autowired
     private AccountService service;
 
-    @GetMapping(params = {"page", "size"})
+    @GetMapping
     public ResponseEntity<List<AccountResponse>> read (
-            @RequestParam Integer page,
-            @RequestParam Integer size
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
     ) {
         return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<AccountResponse>> readAll () {
-        return new ResponseEntity<>(service.readAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

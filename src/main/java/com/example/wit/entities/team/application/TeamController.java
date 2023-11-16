@@ -28,6 +28,10 @@ public class TeamController {
     public ResponseEntity<TeamResponse> read (@PathVariable Long id) {
         return new ResponseEntity<>(service.read(id), HttpStatus.OK);
     }
+    @GetMapping(params = {"name"})
+    public ResponseEntity<TeamResponse> read (@RequestParam String name) {
+        return new ResponseEntity<>(service.read(name), HttpStatus.OK);
+    }
     @GetMapping("/{id}/members")
     public ResponseEntity<List<PlayerResponse>> readMembers (@PathVariable Long id) {
         return new ResponseEntity<>(service.readMembers(id), HttpStatus.OK);

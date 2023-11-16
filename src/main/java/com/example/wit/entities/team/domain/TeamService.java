@@ -42,6 +42,17 @@ public class TeamService {
         return response;
     }
 
+    public TeamResponse read (String name) {
+        Optional<Team> team = repository.findTeamByName(name);
+        if (team.isEmpty()) {
+            throw ElementNotFoundException.createWith("Team", name);
+        }
+
+        TeamResponse response = mapper.map(team.get(), TeamResponse.class);
+        response.setRank(repository.getTeamRank(response.getId()));
+        return response;
+    }
+
     public List<PlayerResponse> readMembers (Long id) {
         Optional<Team> team = repository.findById(id);
         if (team.isEmpty()) {

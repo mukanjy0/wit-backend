@@ -35,7 +35,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher("/auth/**"),
                         antMatcher(HttpMethod.GET, "/career/**"),
                         antMatcher(HttpMethod.GET, "/university/**"),
-                        antMatcher(HttpMethod.GET, "/team/**")
+                        antMatcher(HttpMethod.GET, "/team/**"),
+                        antMatcher(HttpMethod.GET, "/contest/**")
                         )
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

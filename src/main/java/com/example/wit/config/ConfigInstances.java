@@ -6,6 +6,7 @@ import com.example.wit.entities.account.dto.AccountResponse;
 import com.example.wit.entities.career.domain.CareerRepository;
 import com.example.wit.entities.contest.domain.Contest;
 import com.example.wit.entities.contest.domain.division.Division;
+import com.example.wit.entities.contest.dto.ContestPlayerResponse;
 import com.example.wit.entities.contest.dto.ContestRequest;
 import com.example.wit.entities.contest.dto.ContestResponse;
 import com.example.wit.entities.platform.domain.PlatformRepository;
@@ -94,6 +95,11 @@ public class ConfigInstances {
                 }
         );
 
+        mapper.typeMap(Player.class, ContestPlayerResponse.class).addMappings(
+                mpr -> mpr.using(ctx -> ((Category) ctx.getSource()).id())
+                        .map(Player::getBestCategory, ContestPlayerResponse::setCategoryId)
+        );
+
         mapper.typeMap(AccountRequest.class, Account.class).addMappings(
                 mpr -> {
                     mpr.skip(Account::setId);
@@ -114,6 +120,8 @@ public class ConfigInstances {
         mapper.typeMap(ContestRequest.class, Contest.class).addMappings(
                 mpr -> {
                     mpr.skip(Contest::setBets);
+                    mpr.using(ctx -> playerRepository.findById((Long) ctx.getSource()).orElse(null))
+                            .map(ContestRequest::getPlayerId, Contest::setPlayer);
                     mpr.using(ctx -> Stream.of(Division.values())
                                     .filter(cont -> cont.id().equals((Character) ctx.getSource()))
                                     .findFirst()
@@ -132,7 +140,11 @@ public class ConfigInstances {
         );
 
         mapper.typeMap(Contest.class, ContestResponse.class).addMappings(
-                mpr -> mpr.using(ctx -> ((Division) ctx.getSource()).id()).map(Contest::getDivision, ContestResponse::setDivision)
+                mpr -> {
+                    mpr.using(ctx -> ((Division) ctx.getSource()).id()).map(Contest::getDivision, ContestResponse::setDivision);
+                    mpr.using(ctx -> mapper.map((Player) ctx.getSource(), ContestPlayerResponse.class))
+                                    .map(Contest::getPlayer, ContestResponse::setPlayer);
+                }
         );
 
         mapper.typeMap(ProblemRequest.class, Problem.class).addMappings(

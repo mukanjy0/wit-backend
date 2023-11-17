@@ -96,8 +96,12 @@ public class ConfigInstances {
         );
 
         mapper.typeMap(Player.class, ContestPlayerResponse.class).addMappings(
-                mpr -> mpr.using(ctx -> ((Category) ctx.getSource()).id())
-                        .map(Player::getBestCategory, ContestPlayerResponse::setCategoryId)
+                mpr -> {
+                    mpr.using(ctx -> ((Category) ctx.getSource()).id())
+                            .map(Player::getBestCategory, ContestPlayerResponse::setCategoryId);
+                    mpr.using(ctx -> ((Category) ctx.getSource()).tag())
+                            .map(Player::getBestCategory, ContestPlayerResponse::setCategoryTag);
+                }
         );
 
         mapper.typeMap(AccountRequest.class, Account.class).addMappings(

@@ -9,5 +9,6 @@ public class ContestPlayerResponse {
     private Long id;
     private String username;
     private Short categoryId;
+    private String categoryTag;
     private String avatarUrl;
 }

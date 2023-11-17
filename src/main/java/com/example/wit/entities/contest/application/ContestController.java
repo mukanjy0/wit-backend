@@ -18,8 +18,27 @@ public class ContestController {
     private ContestService service;
 
     @GetMapping
-    public ResponseEntity<List<ContestResponse>> read () {
-        return new ResponseEntity<>(service.read(), HttpStatus.OK);
+    public ResponseEntity<List<ContestResponse>> read (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
+    }
+
+    @GetMapping("/past")
+    public ResponseEntity<List<ContestResponse>> readPast (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return new ResponseEntity<>(service.readPast(page, size), HttpStatus.OK);
+    }
+
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<ContestResponse>> readUpcoming (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return new ResponseEntity<>(service.readUpcoming(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

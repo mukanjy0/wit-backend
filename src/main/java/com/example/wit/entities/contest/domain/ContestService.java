@@ -4,11 +4,14 @@ import com.example.wit.entities.contest.domain.division.Division;
 import com.example.wit.entities.contest.dto.ContestRequest;
 import com.example.wit.entities.contest.dto.ContestResponse;
 import com.example.wit.entities.contest.utils.ContestUtils;
+import com.example.wit.entities.player.domain.Player;
+import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.entities.problem.domain.Problem;
 import com.example.wit.entities.problem.domain.ProblemRepository;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -27,10 +30,28 @@ public class ContestService {
     private ContestRepository repository;
     @Autowired
     private ProblemRepository problemRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-    public List<ContestResponse> read () {
+    public List<ContestResponse> read (Integer page, Integer size) {
         return  repository
-                .findAll()
+                .findAll(PageRequest.of(page, size))
+                .stream()
+                .map(contest -> mapper.map(contest, ContestResponse.class))
+                .toList();
+    }
+
+    public List<ContestResponse> readPast (Integer page, Integer size) {
+        return  repository
+                .findPastContests(page, size)
+                .stream()
+                .map(contest -> mapper.map(contest, ContestResponse.class))
+                .toList();
+    }
+
+    public List<ContestResponse> readUpcoming (Integer page, Integer size) {
+        return  repository
+                .findUpcomingContests(page, size)
                 .stream()
                 .map(contest -> mapper.map(contest, ContestResponse.class))
                 .toList();
@@ -55,6 +76,11 @@ public class ContestService {
                 .toList()
                 .isEmpty()) {
             throw ElementNotFoundException.createWith("Division", String.valueOf(division));
+        }
+        Long playerId = contest.getPlayerId();
+        Optional<Player> player = playerRepository.findById(playerId);
+        if (player.isEmpty()) {
+            throw ElementNotFoundException.createWith("Player", playerId.toString());
         }
         Set<Long> problemsIds = contest.getProblemIds();
         if (problemsIds != null) {

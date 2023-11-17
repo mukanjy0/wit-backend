@@ -20,6 +20,12 @@ public class ContestUtils {
              original.setDivision(division);
         }
 
+        String title = toUpdate.getTitle();
+        if (title != null) original.setTitle(title);
+
+        String description = toUpdate.getDescription();
+        if (description != null) original.setDescription(description);
+
         LocalDateTime start = toUpdate.getStartDatetime();
         if (start != null) original.setStartDatetime(start);
 

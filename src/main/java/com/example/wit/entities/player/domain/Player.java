@@ -6,6 +6,7 @@ import com.example.wit.entities.challenge.domain.bet.BetPlayer;
 import com.example.wit.entities.career.domain.Career;
 import com.example.wit.entities.challenge.domain.quest.QuestPlayer;
 import com.example.wit.entities.challenge.domain.versus.Versus;
+import com.example.wit.entities.contest.domain.Contest;
 import com.example.wit.entities.player.domain.category.Category;
 import com.example.wit.entities.player.domain.role.Role;
 import com.example.wit.entities.submission.domain.Submission;
@@ -57,6 +58,8 @@ public class Player implements UserDetails {
     Set<Account> accounts;
     @OneToMany(mappedBy = "player")
     Set<Submission> submissions;
+    @OneToMany(mappedBy = "player")
+    Set<Contest> contests;
     @OneToMany(mappedBy = "player")
     Set<PlayerCardType> cards;
     @ManyToMany

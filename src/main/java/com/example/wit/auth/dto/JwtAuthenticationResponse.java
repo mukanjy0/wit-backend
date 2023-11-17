@@ -7,6 +7,6 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class JwtAuthenticationResponse {
-    @NotBlank
+    private Long id;
     private String token;
 }

@@ -146,6 +146,7 @@ public class ConfigInstances {
         mapper.typeMap(Contest.class, ContestResponse.class).addMappings(
                 mpr -> {
                     mpr.using(ctx -> ((Division) ctx.getSource()).id()).map(Contest::getDivision, ContestResponse::setDivision);
+                    mpr.using(ctx -> ((Set<Problem>) ctx.getSource()).size()).map(Contest::getProblems, ContestResponse::setProblemCount);
                     mpr.using(ctx -> mapper.map((Player) ctx.getSource(), ContestPlayerResponse.class))
                                     .map(Contest::getPlayer, ContestResponse::setPlayer);
                 }

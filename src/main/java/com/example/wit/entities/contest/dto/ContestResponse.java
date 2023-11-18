@@ -21,6 +21,6 @@ public class ContestResponse {
     private LocalDateTime endDatetime;
     private Integer durationMilliseconds;
     private String editorialUrl;
+    private Integer problemCount;
     ContestPlayerResponse player;
-    Set<ProblemResponse> problems;
 }

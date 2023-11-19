@@ -2,17 +2,14 @@ package com.example.wit.entities.reward.domain;
 
 import com.example.wit.entities.card.domain.Card;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Entity
 @Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class RewardCardType {
+public class RewardCard {
     @EmbeddedId
     RewardCardTypeId id;
     @ManyToOne
@@ -20,21 +17,17 @@ public class RewardCardType {
     @JoinColumn(name = "reward_id", referencedColumnName = "id")
     Reward reward;
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "card_type_name", referencedColumnName = "name", insertable = false, updatable = false),
-        @JoinColumn(name = "card_type_suit", referencedColumnName = "suit", insertable = false, updatable = false)
-    })
-    Card cardType;
+    @MapsId("cardId")
+    @JoinColumn(name = "card_id", referencedColumnName = "id")
+    Card card;
     @Column(nullable = false)
     private Short quantity;
 
     @Embeddable
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode
     public class RewardCardTypeId implements Serializable {
-        @Column(name = "reward_id")
         private Long rewardId;
-        @Column(name = "card_type_name", length = 20)
-        private String cardTypeName;
-        @Column(name = "card_type_suit", length = 20)
-        private String cardTypeSuit;
+        private Short cardId;
     }
 }

@@ -7,8 +7,8 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Table
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class PlayerCard{
     @EmbeddedId
     PlayerCardId id;
@@ -23,9 +23,10 @@ public class PlayerCard{
     private Short quantity;
 
     @Embeddable
-    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+    @Getter @Setter
+    @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
     static public class PlayerCardId implements Serializable {
         private Long playerId;
-        private Long cardId;
+        private Short cardId;
     }
 }

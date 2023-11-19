@@ -7,6 +7,7 @@ import lombok.*;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class CardResponse {
+    private Short id;
     private String suit;
     private String rank;
     private String rarity;

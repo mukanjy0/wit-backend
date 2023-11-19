@@ -3,6 +3,10 @@ package com.example.wit.config;
 import com.example.wit.entities.account.domain.Account;
 import com.example.wit.entities.account.dto.AccountRequest;
 import com.example.wit.entities.account.dto.AccountResponse;
+import com.example.wit.entities.card.domain.Card;
+import com.example.wit.entities.card.domain.rarity.Rarity;
+import com.example.wit.entities.card.dto.CardRequest;
+import com.example.wit.entities.card.dto.CardResponse;
 import com.example.wit.entities.career.domain.CareerRepository;
 import com.example.wit.entities.contest.domain.Contest;
 import com.example.wit.entities.contest.domain.division.Division;
@@ -177,6 +181,17 @@ public class ConfigInstances {
                     mpr.map(submission -> submission.getProblem().getId(), SubmissionResponse::setProblemId);
                     mpr.map(submission -> submission.getPlayer().getId(), SubmissionResponse::setPlayerId);
                 }
+        );
+
+        mapper.typeMap(CardRequest.class, Card.class).addMappings(
+                mpr -> mpr.using(ctx -> Stream.of(Rarity.values())
+                        .filter(rarity -> rarity.name().equals((String) ctx.getSource()))
+                        .findFirst()
+                        .orElse(null)).map(CardRequest::getRarity, Card::setRarity)
+        );
+
+        mapper.typeMap(Card.class, CardResponse.class).addMappings(
+                mpr -> mpr.using(ctx -> ((Rarity) ctx.getSource()).name()).map(Card::getRarity, CardResponse::setRarity)
         );
 
         mapper.getConfiguration().setAmbiguityIgnored(false);

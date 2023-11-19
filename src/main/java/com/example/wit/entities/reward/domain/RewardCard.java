@@ -1,6 +1,6 @@
 package com.example.wit.entities.reward.domain;
 
-import com.example.wit.entities.cardtype.domain.CardType;
+import com.example.wit.entities.card.domain.Card;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class RewardCardType {
         @JoinColumn(name = "card_type_name", referencedColumnName = "name", insertable = false, updatable = false),
         @JoinColumn(name = "card_type_suit", referencedColumnName = "suit", insertable = false, updatable = false)
     })
-    CardType cardType;
+    Card cardType;
     @Column(nullable = false)
     private Short quantity;
 

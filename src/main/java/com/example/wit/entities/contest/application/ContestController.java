@@ -3,6 +3,7 @@ package com.example.wit.entities.contest.application;
 import com.example.wit.entities.contest.domain.ContestService;
 import com.example.wit.entities.contest.dto.ContestRequest;
 import com.example.wit.entities.contest.dto.ContestResponse;
+import com.example.wit.entities.problem.dto.ProblemResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,13 +19,37 @@ public class ContestController {
     private ContestService service;
 
     @GetMapping
-    public ResponseEntity<List<ContestResponse>> read () {
-        return new ResponseEntity<>(service.read(), HttpStatus.OK);
+    public ResponseEntity<List<ContestResponse>> read (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return new ResponseEntity<>(service.read(page, size), HttpStatus.OK);
+    }
+
+    @GetMapping("/past")
+    public ResponseEntity<List<ContestResponse>> readPast (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return new ResponseEntity<>(service.readPast(page, size), HttpStatus.OK);
+    }
+
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<ContestResponse>> readUpcoming (
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return new ResponseEntity<>(service.readUpcoming(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ContestResponse> read (@PathVariable Long id) {
         return new ResponseEntity<>(service.read(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/problems")
+    public ResponseEntity<List<ProblemResponse>> readProblems (@PathVariable Long id) {
+        return new ResponseEntity<>(service.readProblems(id), HttpStatus.OK);
     }
 
     @PostMapping

@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findTeamByName(String name);
     Boolean existsTeamByName(String name);
-    @Query(value = "select get_team_rank(:id);", nativeQuery = true)
+    @Query(value = "SELECT get_team_rank(:id);", nativeQuery = true)
     Long getTeamRank(Long id);
 }

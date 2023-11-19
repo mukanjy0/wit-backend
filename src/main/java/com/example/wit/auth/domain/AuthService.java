@@ -84,9 +84,10 @@ public class AuthService {
 
         repository.save(newPlayer);
 
+        Long id = newPlayer.getId();
         String jwt = jwtService.generateToken(newPlayer);
 
-        return  new JwtAuthenticationResponse(jwt);
+        return  new JwtAuthenticationResponse(id, jwt);
     }
 
     public JwtAuthenticationResponse signIn (PlayerSignIn player) {
@@ -99,8 +100,9 @@ public class AuthService {
             throw ElementNotFoundException.createWith("Player", username);
         }
 
+        Long id = user.get().getId();
         String jwt = jwtService.generateToken(user.get());
 
-        return new JwtAuthenticationResponse(jwt);
+        return new JwtAuthenticationResponse(id, jwt);
     }
 }

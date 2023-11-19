@@ -14,5 +14,4 @@ public class ProblemResponse {
     private Integer memoryLimit;
     private Short timeLimit;
     private String sourceUrl;
-    Set<Tag> tags;
 }

@@ -3,6 +3,7 @@ package com.example.wit.entities.contest.application;
 import com.example.wit.entities.contest.domain.ContestService;
 import com.example.wit.entities.contest.dto.ContestRequest;
 import com.example.wit.entities.contest.dto.ContestResponse;
+import com.example.wit.entities.problem.dto.ProblemResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,11 @@ public class ContestController {
     @GetMapping("/{id}")
     public ResponseEntity<ContestResponse> read (@PathVariable Long id) {
         return new ResponseEntity<>(service.read(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/problems")
+    public ResponseEntity<List<ProblemResponse>> readProblems (@PathVariable Long id) {
+        return new ResponseEntity<>(service.readProblems(id), HttpStatus.OK);
     }
 
     @PostMapping

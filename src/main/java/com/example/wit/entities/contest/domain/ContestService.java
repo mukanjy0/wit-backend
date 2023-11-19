@@ -8,6 +8,7 @@ import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.entities.problem.domain.Problem;
 import com.example.wit.entities.problem.domain.ProblemRepository;
+import com.example.wit.entities.problem.dto.ProblemResponse;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,14 @@ public class ContestService {
         }
 
         return mapper.map(contest, ContestResponse.class);
+    }
+
+    public List<ProblemResponse> readProblems (Long id) {
+        Optional<Contest> contest = repository.findById(id);
+        if (contest.isEmpty()) {
+            throw ElementNotFoundException.createWith("Contest", id.toString());
+        }
+        return contest.get().getProblems().stream().map(problem -> mapper.map(problem, ProblemResponse.class)).toList();
     }
 
     public void create (ContestRequest contest) {

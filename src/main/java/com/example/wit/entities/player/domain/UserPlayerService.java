@@ -156,6 +156,11 @@ public class UserPlayerService implements PlayerService {
             throw ElementAlreadyExistsException.createWith(username, "username");
         }
 
+        String email = player.getEmail();
+        if (repository.existsPlayerByEmail(email)) {
+            throw ElementAlreadyExistsException.createWith(email, "email");
+        }
+
         Player newPlayer = mapper.map(player, Player.class);
         var passwordEncoder = new BCryptPasswordEncoder();
         newPlayer.setPassword(passwordEncoder.encode(player.getPassword()));

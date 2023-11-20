@@ -10,6 +10,7 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 public class ProblemResponse {
     private Long id;
+    private String title;
     private String statement;
     private Integer memoryLimit;
     private Short timeLimit;

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProblemUtils {
     public static Problem updateProblem (Problem original, ProblemRequest toUpdate) {
+        String title = toUpdate.getTitle();
+        if (title != null) original.setTitle(title);
+
         String statement = toUpdate.getStatement();
         if (statement != null) original.setStatement(statement);
 

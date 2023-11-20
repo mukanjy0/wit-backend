@@ -5,6 +5,7 @@ import com.example.wit.entities.problem.dto.ProblemResponse;
 import com.example.wit.entities.problem.utils.ProblemUtils;
 import com.example.wit.entities.tag.domain.Tag;
 import com.example.wit.entities.tag.domain.TagRepository;
+import com.example.wit.exceptions.ElementAlreadyExistsException;
 import com.example.wit.exceptions.ElementNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,11 @@ public class ProblemService {
     }
 
     public void create (ProblemRequest problem) {
+        String title = problem.getTitle();
+        if (repository.existsProblemByTitle(title)) {
+            throw ElementAlreadyExistsException.createWith(title, "title");
+        }
+
         repository.save(mapper.map(problem, Problem.class));
     }
 
@@ -49,7 +55,15 @@ public class ProblemService {
             throw ElementNotFoundException.createWith("Problem", id.toString());
         }
 
+        Problem previous = original.get();
+        String title = previous.getTitle();
+
         Problem updated = ProblemUtils.updateProblem(original.get(), problem);
+        String newTitle = updated.getTitle();
+
+        if (!title.equals(newTitle) && repository.existsProblemByTitle(title)) {
+            throw ElementAlreadyExistsException.createWith(title, "title");
+        }
 
         Set<Tag> tags = new HashSet<>();
         for (Short tagId : problem.getTagIds()) {

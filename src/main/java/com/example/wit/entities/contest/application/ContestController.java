@@ -66,6 +66,7 @@ public class ContestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete (@PathVariable Long id) {
+        service.delete(id);
         return ResponseEntity.status(200).body("Contest deleted.");
     }
 }

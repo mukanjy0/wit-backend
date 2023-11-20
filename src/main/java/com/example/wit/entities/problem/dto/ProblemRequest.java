@@ -11,6 +11,8 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 public class ProblemRequest {
     @NotBlank
+    private String title;
+    @NotBlank
     private String statement;
     @NotNull
     private Integer memoryLimit;

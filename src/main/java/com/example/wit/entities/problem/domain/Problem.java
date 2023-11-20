@@ -18,6 +18,8 @@ public class Problem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 100, unique = true, nullable = false)
+    private String title;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String statement;
     @Column(nullable = false)

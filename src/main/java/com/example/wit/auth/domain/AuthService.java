@@ -49,6 +49,11 @@ public class AuthService {
             throw ElementAlreadyExistsException.createWith(username, "username");
         }
 
+        String email = player.getEmail();
+        if (repository.existsPlayerByEmail(email)) {
+            throw ElementAlreadyExistsException.createWith(email, "email");
+        }
+
         Long teamId = player.getTeamId();
         if (teamRepository.findById(teamId).isEmpty()) {
             throw ElementNotFoundException.createWith("Team", teamId.toString());

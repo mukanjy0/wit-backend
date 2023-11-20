@@ -1,5 +1,6 @@
 package com.example.wit.entities.player.application;
 
+import com.example.wit.entities.contest.dto.ContestResponse;
 import com.example.wit.entities.player.domain.UserPlayerService;
 import com.example.wit.entities.player.dto.MinimalistPlayerResponse;
 import com.example.wit.entities.player.dto.PlayerCardResponse;
@@ -32,6 +33,11 @@ public class PlayerController {
     @GetMapping("/{id}/minimalist")
     public ResponseEntity<MinimalistPlayerResponse> readMinimalist (@PathVariable Long id) {
         return new ResponseEntity<>(service.readMinimalist(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/contests")
+    public ResponseEntity<List<ContestResponse>> readContests (@PathVariable Long id) {
+        return new ResponseEntity<>(service.readContests(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/cards")

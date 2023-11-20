@@ -4,6 +4,7 @@ import com.example.wit.entities.card.domain.Card;
 import com.example.wit.entities.card.domain.CardRepository;
 import com.example.wit.entities.career.domain.Career;
 import com.example.wit.entities.career.domain.CareerRepository;
+import com.example.wit.entities.contest.dto.ContestResponse;
 import com.example.wit.entities.player.dto.MinimalistPlayerResponse;
 import com.example.wit.entities.player.dto.PlayerCardResponse;
 import com.example.wit.entities.player.dto.PlayerResponse;
@@ -78,6 +79,18 @@ public class UserPlayerService implements PlayerService {
         }
 
         return mapper.map(mapper.map(player.get(), PlayerResponse.class), MinimalistPlayerResponse.class);
+    }
+
+    public List<ContestResponse> readContests (Long id) {
+        Optional<Player> player = repository.findById(id);
+        if (player.isEmpty()) {
+            throw ElementNotFoundException.createWith("Player", id.toString());
+        }
+
+        return player.get().getContests()
+                .stream()
+                .map(contest -> mapper.map(contest, ContestResponse.class))
+                .toList();
     }
 
     public List<PlayerCardResponse> readCards (Long id) {

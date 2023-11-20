@@ -64,7 +64,7 @@ public class ContestService {
             throw ElementNotFoundException.createWith("Contest", id.toString());
         }
 
-        return mapper.map(contest, ContestResponse.class);
+        return mapper.map(contest.get(), ContestResponse.class);
     }
 
     public List<ProblemResponse> readProblems (Long id) {

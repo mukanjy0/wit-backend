@@ -23,7 +23,7 @@ public class Reward {
     @Column(nullable = false)
     private Integer upperBound;
     @OneToMany(mappedBy = "reward")
-    Set<RewardCardType> cards;
+    Set<RewardCard> cards;
     @ManyToMany(mappedBy = "rewards")
     Set<Challenge> challenges;
 }

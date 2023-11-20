@@ -61,7 +61,7 @@ public class Player implements UserDetails {
     @OneToMany(mappedBy = "player")
     Set<Contest> contests;
     @OneToMany(mappedBy = "player")
-    Set<PlayerCardType> cards;
+    Set<PlayerCard> cards;
     @ManyToMany
     Set<Badge> badges;
     @OneToMany(mappedBy = "player")

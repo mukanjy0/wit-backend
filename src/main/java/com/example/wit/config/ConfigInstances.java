@@ -1,5 +1,6 @@
 package com.example.wit.config;
 
+import com.example.wit.auth.dto.JwtAuthenticationResponse;
 import com.example.wit.entities.account.domain.Account;
 import com.example.wit.entities.account.dto.AccountRequest;
 import com.example.wit.entities.account.dto.AccountResponse;
@@ -18,6 +19,8 @@ import com.example.wit.entities.player.domain.Player;
 import com.example.wit.entities.player.domain.PlayerRepository;
 import com.example.wit.entities.player.domain.category.Category;
 import com.example.wit.entities.player.domain.role.Role;
+import com.example.wit.entities.player.dto.MinimalistPlayerResponse;
+import com.example.wit.entities.player.dto.PlayerCardResponse;
 import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerSignUp;
 import com.example.wit.entities.problem.domain.Problem;
@@ -108,6 +111,15 @@ public class ConfigInstances {
                 }
         );
 
+        mapper.typeMap(PlayerResponse.class, MinimalistPlayerResponse.class).addMappings(
+                mpr -> mpr.using(ctx -> Stream.of(Category.values())
+                        .filter(cat -> cat.id().equals((Short) ctx.getSource()))
+                        .findFirst()
+                        .get()
+                        .tag())
+                        .map(PlayerResponse::getCurrentCategoryId, MinimalistPlayerResponse::setCategoryTag)
+        );
+
         mapper.typeMap(AccountRequest.class, Account.class).addMappings(
                 mpr -> {
                     mpr.skip(Account::setId);
@@ -192,6 +204,10 @@ public class ConfigInstances {
 
         mapper.typeMap(Card.class, CardResponse.class).addMappings(
                 mpr -> mpr.using(ctx -> ((Rarity) ctx.getSource()).name()).map(Card::getRarity, CardResponse::setRarity)
+        );
+
+        mapper.typeMap(Card.class, PlayerCardResponse.class).addMappings(
+                mpr -> mpr.skip(PlayerCardResponse::setQuantity)
         );
 
         mapper.getConfiguration().setAmbiguityIgnored(false);

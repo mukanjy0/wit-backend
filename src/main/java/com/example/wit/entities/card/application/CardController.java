@@ -3,6 +3,7 @@ package com.example.wit.entities.card.application;
 import com.example.wit.entities.card.domain.CardService;
 import com.example.wit.entities.card.dto.CardRequest;
 import com.example.wit.entities.card.dto.CardResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class CardController {
         return new ResponseEntity<>(service.read(id), HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<String> create (@RequestBody CardRequest card) {
+    public ResponseEntity<String> create (@Valid @RequestBody CardRequest card) {
         service.create(card);
         return ResponseEntity.status(201).body("Card created.");
     }

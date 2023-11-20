@@ -1,7 +1,10 @@
 package com.example.wit.entities.player.domain;
 
+import com.example.wit.entities.card.domain.Card;
+import com.example.wit.entities.card.domain.CardRepository;
 import com.example.wit.entities.career.domain.Career;
 import com.example.wit.entities.career.domain.CareerRepository;
+import com.example.wit.entities.player.dto.MinimalistPlayerResponse;
 import com.example.wit.entities.player.dto.PlayerCardResponse;
 import com.example.wit.entities.player.dto.PlayerResponse;
 import com.example.wit.entities.player.dto.PlayerRequest;
@@ -38,6 +41,8 @@ public class UserPlayerService implements PlayerService {
     private CareerRepository careerRepository;
     @Autowired
     private UniversityRepository universityRepository;
+    @Autowired
+    private CardRepository cardRepository;
 
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -66,13 +71,37 @@ public class UserPlayerService implements PlayerService {
         return mapper.map(player.get(), PlayerResponse.class);
     }
 
+    public MinimalistPlayerResponse readMinimalist (Long id) {
+        Optional<Player>  player = repository.findById(id);
+        if (player.isEmpty()) {
+            throw ElementNotFoundException.createWith("Player", id.toString());
+        }
+
+        return mapper.map(mapper.map(player.get(), PlayerResponse.class), MinimalistPlayerResponse.class);
+    }
+
     public List<PlayerCardResponse> readCards (Long id) {
         Optional<Player>  player = repository.findById(id);
         if (player.isEmpty()) {
             throw ElementNotFoundException.createWith("Player", id.toString());
         }
 
-        return player.get().getCards().stream().map(playerCard -> mapper.map(playerCard, PlayerCardResponse.class)).toList();
+        List<PlayerCardResponse> cards = cardRepository
+                .findAll()
+                .stream()
+                .map(card -> mapper.map(card, PlayerCardResponse.class))
+                .toList();
+
+        for (PlayerCardResponse pcr : cards) {
+            PlayerCard playerCard = player.get().getCards()
+                            .stream()
+                            .filter(pc -> pc.getCard().getId().equals(pcr.getId()))
+                            .findFirst()
+                            .orElse(null);
+            pcr.setQuantity(playerCard != null ? playerCard.getQuantity() : 0);
+        }
+
+        return cards;
     }
 
     public void update (Long id, PlayerRequest player) {
@@ -132,6 +161,9 @@ public class UserPlayerService implements PlayerService {
         newPlayer.setPassword(passwordEncoder.encode(player.getPassword()));
         newPlayer.setBestCategory(newPlayer.getCurrentCategory());
         newPlayer.setRegistrationDate(LocalDate.now());
+        if (newPlayer.getAvatarUrl() == null) {
+            newPlayer.setAvatarUrl("https://userpic.codeforces.org/no-avatar.jpg");
+        }
 
         repository.save(newPlayer);
     }

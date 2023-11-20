@@ -3,6 +3,7 @@ package com.example.wit.entities.university.applications;
 import com.example.wit.entities.university.domain.UniversityService;
 import com.example.wit.entities.university.dto.UniversityRequest;
 import com.example.wit.entities.university.dto.UniversityResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class UniversityController {
         return new ResponseEntity<>(service.read(id), HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<String> create (@RequestBody UniversityRequest university) {
+    public ResponseEntity<String> create (@Valid @RequestBody UniversityRequest university) {
         service.create(university);
         return ResponseEntity.status(201).body("University created.");
     }

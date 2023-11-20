@@ -6,6 +6,11 @@ import lombok.*;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class PlayerCardResponse {
-    private Short cardId;
-    private Integer quantity;
+    private Short id;
+    private String suit;
+    private String rank;
+    private String rarity;
+    private String description;
+    private Integer pointConversion;
+    private Short quantity;
 }
